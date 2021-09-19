@@ -1,34 +1,33 @@
 import * as React from 'react';
-import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Icon } from "react-native-elements";
 
-function HomeScreen() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Home!</Text>
-        </View>
-    );
-}
-
-function SettingsScreen() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Settings!</Text>
-        </View>
-    );
-}
+import HomeScreen from "../modules/home";
+import AccountScreen from "../modules/accounts";
+import GoalScreen from "../modules/goals";
+import NetworthScreen from "../modules/networth";
+import HistoryScreen from "../modules/history";
 
 const Tab = createBottomTabNavigator();
+
+const options = (icon: string = 'home', iconType: string = 'feather') => {
+    return {
+        tabBarIcon: ({ color }: { color: string }) => (
+            <Icon name={icon} type={iconType} color={color} />
+        )
+    }
+}
 
 export default function Navigation() {
     return (
         <NavigationContainer>
             <Tab.Navigator>
-                <Tab.Screen name="Accounts" component={HomeScreen} />
-                <Tab.Screen name="Goals" component={SettingsScreen} />
-                <Tab.Screen name="Net Worth" component={SettingsScreen} />
-                <Tab.Screen name="History" component={SettingsScreen} />
+                <Tab.Screen name="Home" component={HomeScreen} options={options('home')}/>
+                <Tab.Screen name="Accounts" component={AccountScreen} options={options('file-minus')}/>
+                <Tab.Screen name="Goals" component={GoalScreen} options={options('gift')}/>
+                <Tab.Screen name="Net Worth" component={NetworthScreen} options={options('bar-chart-2')}/>
+                <Tab.Screen name="History" component={HistoryScreen} options={options('clock')}/>
             </Tab.Navigator>
         </NavigationContainer>
     );

@@ -27,7 +27,7 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import Navigation from "./src/navigations/index";
+import Navigation from "./src/navigations";
 
 const Section: React.FC<{
   title: string;
