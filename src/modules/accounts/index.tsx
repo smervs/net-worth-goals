@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, View, Text, Modal, ScrollView, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Modal, ScrollView, StyleSheet } from 'react-native';
 import { Screen } from "../common/components";
-import { FAB, Icon, Input, Button } from "react-native-elements";
+import { FAB, Icon, Input, Button, Card } from "react-native-elements";
 import List from "./components/List";
 import database from "../../database";
 import Account from '../../models/Account';
@@ -9,6 +9,7 @@ import Account from '../../models/Account';
 const accountsCollection = database.get('accounts');
 
 export default function AccountScreen() {
+    const [sum, setSum] = useState(0);
     const [accounts, setAccounts] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [editModalVisible, setEditModalVisible] = useState(false);
@@ -65,6 +66,11 @@ export default function AccountScreen() {
 
     const getAccounts = async () => {
         const list = await accountsCollection.query().fetch();
+
+        setSum(list.reduce((prev: number, model: Account) => {
+            return prev + model.total;
+        }, 0));
+
         setAccounts(list);
     }
 
@@ -145,6 +151,10 @@ export default function AccountScreen() {
                 </View>
             </Modal>
             <ScrollView>
+                <Card containerStyle={{ marginBottom: 15 }}>
+                    <Text>Total</Text>
+                    <Text>$ {sum}</Text>
+                </Card>
                 <List accounts={accounts} refresh={refreshList} edit={editAccount} />
             </ScrollView>
             <FAB
