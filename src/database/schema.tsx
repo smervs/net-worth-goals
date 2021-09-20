@@ -16,22 +16,30 @@ export default appSchema({
             columns: [
                 { name: 'name', type: 'string' },
                 { name: 'amount', type: 'number' },
-                { name: 'account', type: 'number' },
+                { name: 'account_id', type: 'number' },
             ]
         }),
         tableSchema({
-            name: 'networth',
+            name: 'networths',
             columns: [
                 { name: 'date', type: 'string' },
                 { name: 'amount', type: 'number' },
             ]
         }),
         tableSchema({
-            name: 'history',
+            name: 'debits',
             columns: [
+                { name: 'account_id', type: 'number' },
                 { name: 'date', type: 'string' },
-                { name: 'account', type: 'number' },
-                { name: 'type', type: 'string' },
+                { name: 'amount', type: 'string' },
+            ]
+        }),
+        tableSchema({
+            name: 'credits',
+            columns: [
+                { name: 'account_id', type: 'number' },
+                { name: 'date', type: 'string' },
+                { name: 'amount', type: 'string' },
             ]
         }),
     ]
