@@ -11,7 +11,13 @@ const accountsCollection = database.get('accounts');
 export default function AccountScreen() {
     const [accounts, setAccounts] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [editModalVisible, setEditModalVisible] = useState(false);
     const [form, setForm] = useState({
+        name: '',
+        total: 0.0,
+    });
+    const [updateAccount, setUpdateAccount] = useState(null);
+    const [editForm, setEditForm] = useState({
         name: '',
         total: 0.0,
     });
@@ -30,10 +36,36 @@ export default function AccountScreen() {
         getAccounts();
     };
 
+    const updateForm = async () => {
+        await database.write(async () => {
+            await updateAccount.update((account: Account) => {
+                account.name = editForm.name,
+                account.total = +editForm.total,
+                account.color = ''
+            });
+        });
+
+        setEditForm({ name: '', total: 0.0 });
+        setEditModalVisible(false);
+        getAccounts();
+    };
+
+    const editAccount = (account) => {
+        setEditForm({
+            name: account.name,
+            total: account.total
+        });
+        setUpdateAccount(account);
+        setEditModalVisible(true);
+    }
+
+    const refreshList = () => {
+        getAccounts();
+    }
+
     const getAccounts = async () => {
         const list = await accountsCollection.query().fetch();
         setAccounts(list);
-        console.log(list)
     }
 
     useEffect(() => {
@@ -48,7 +80,6 @@ export default function AccountScreen() {
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    Alert.alert("Modal has been closed.");
                     setModalVisible(!modalVisible);
                 }}
             >
@@ -78,8 +109,43 @@ export default function AccountScreen() {
                     </View>
                 </View>
             </Modal>
+            <Modal
+                presentationStyle="overFullScreen"
+                animationType="fade"
+                transparent={true}
+                visible={editModalVisible}
+                onRequestClose={() => {
+                    setEditModalVisible(!editModalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalTitle}>Edit Account</Text>
+                        <Input
+                            label="Name"
+                            placeholder="Name"
+                            value={editForm.name}
+                            onChangeText={value => setEditForm((prev) => ({ ...prev, name: value }))}
+                        />
+                        <Input
+                            keyboardType='numeric'
+                            label="Current Balance"
+                            placeholder="Current Balance"
+                            value={editForm.total.toString()}
+                            onChangeText={value => setEditForm((prev) => ({ ...prev, total: value }))}
+                        />
+                        <Button title="Update" onPress={updateForm} />
+                        <Button
+                            containerStyle={{ marginTop: 10 }}
+                            title="Cancel"
+                            type="outline"
+                            onPress={() => setEditModalVisible(false)}
+                        />
+                    </View>
+                </View>
+            </Modal>
             <ScrollView>
-                <List accounts={accounts} />
+                <List accounts={accounts} refresh={refreshList} edit={editAccount} />
             </ScrollView>
             <FAB
                 onPress={() => setModalVisible(true)}
