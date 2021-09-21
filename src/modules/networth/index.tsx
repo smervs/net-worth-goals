@@ -1,13 +1,33 @@
-import * as React from 'react';
-import { Text, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { ScrollView } from 'react-native';
 import { Screen } from "../common/components";
+import List from "./components/List";
+import database from "../../database";
+
+const networthsCollection = database.get('networths');
 
 export default function NetworthScreen() {
+    const [networths, setNetworths] = useState([]);
+
+    const refreshList = () => {
+        getNetworths();
+    }
+
+    const getNetworths = async () => {
+        const list = await networthsCollection.query().fetch();
+
+        setNetworths(list);
+    }
+
+    useEffect(() => {
+        getNetworths();
+    }, []);
+
     return (
         <Screen>
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Net Worth!</Text>
-            </View>
+            <ScrollView>
+                <List networths={networths} refresh={refreshList} edit={() => {}} />
+            </ScrollView>
         </Screen>
     );
 }

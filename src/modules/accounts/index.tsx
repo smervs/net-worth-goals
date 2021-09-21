@@ -8,6 +8,9 @@ import Account from '../../models/Account';
 import { SliderHuePicker } from 'react-native-slider-color-picker';
 import tinycolor from 'tinycolor2';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { Q } from '@nozbe/watermelondb';
+import dayjs from "dayjs";
+import Networth from '../../models/Networth';
 
 const GestureHandlerWrapper = gestureHandlerRootHOC(
     ({ children }) => <View style={{
@@ -19,6 +22,7 @@ const GestureHandlerWrapper = gestureHandlerRootHOC(
 );
 
 const accountsCollection = database.get('accounts');
+const networthsCollection = database.get('networths');
 
 export default function AccountScreen() {
     const [sum, setSum] = useState(0);
@@ -54,7 +58,7 @@ export default function AccountScreen() {
 
         setForm({ name: '', total: 0.0 });
         setModalVisible(false);
-        getAccounts();
+        await getAccounts();
     };
 
     const updateForm = async () => {
@@ -68,7 +72,7 @@ export default function AccountScreen() {
 
         setEditForm({ name: '', total: 0.0 });
         setEditModalVisible(false);
-        getAccounts();
+        await getAccounts();
     };
 
     const editAccount = (account) => {
@@ -76,6 +80,7 @@ export default function AccountScreen() {
             name: account.name,
             total: account.total
         });
+        setColor(account.color);
         setUpdateAccount(account);
         setEditModalVisible(true);
     }
@@ -84,13 +89,40 @@ export default function AccountScreen() {
         getAccounts();
     }
 
+    const updateNetworth = async (totalNetworth) => {
+        const list = await networthsCollection.query(
+            Q.where('date', dayjs().format('YYYYMMDD'))
+        ).fetch();
+
+        if (list && list.length) {
+            const networthModel = list[0];
+            await database.write(async () => {
+                await networthModel.update((networth: Networth) => {
+                    networth.amount = totalNetworth;
+                });
+            });
+
+        } else {
+            await database.write(async () => {
+                const nw = await networthsCollection.create((networth: Networth) => {
+                    networth.date = dayjs().format('YYYYMMDD'),
+                    networth.amount = totalNetworth
+                });
+            });
+        }
+
+    }
+
     const getAccounts = async () => {
         const list = await accountsCollection.query().fetch();
 
-        setSum(list.reduce((prev: number, model: Account) => {
-            return prev + model.total;
-        }, 0));
 
+        const totalAmount = list.reduce((prev: number, model: Account) => {
+            return prev + model.total;
+        }, 0);
+
+        await updateNetworth(totalAmount);
+        setSum(totalAmount);
         setAccounts(list);
     }
 
