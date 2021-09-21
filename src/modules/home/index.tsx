@@ -10,6 +10,7 @@ const accountsCollection = database.get('accounts');
 
 export default function HomeScreen() {
     const [series, setSeries] = useState([]);
+    const [colors, setColors] = useState([]);
 
     const getAccounts = async () => {
         const accounts = await accountsCollection.query().fetch();
@@ -17,7 +18,10 @@ export default function HomeScreen() {
         const data = accounts.map((account: Account) => ({
             y: account.total, x: `${(account.total / total) * 100}%`, label: account.name
         }));
+        const colorData = accounts.map((account: Account) => account.color);
+
         setSeries(data);
+        setColors(colorData);
     }
 
     useEffect(() => {
@@ -35,7 +39,7 @@ export default function HomeScreen() {
                             width={250}
                             height={250}
                             innerRadius={40}
-                            colorScale={['red', 'blue', 'yellow', 'green', 'tomato']}
+                            colorScale={colors}
                             style={{
                                 labels: {
                                     fill: '#000', fontSize: 12, padding: 10,

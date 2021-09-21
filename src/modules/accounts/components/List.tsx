@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from "react-native";
+import { Alert, View } from "react-native";
 import { Button, ListItem, Icon } from "react-native-elements";
 import database from "../../../database";
 
@@ -54,6 +54,7 @@ export default function List({ accounts, refresh, edit }) {
                 />
             }
             key={account.id} bottomDivider>
+            <View style={{ height: 20, width: 20, backgroundColor: account.color }}></View>
             <ListItem.Content>
                 <ListItem.Title>{account.name}</ListItem.Title>
                 <ListItem.Subtitle>{account.total}</ListItem.Subtitle>

@@ -5,6 +5,18 @@ import { FAB, Icon, Input, Button, Card } from "react-native-elements";
 import List from "./components/List";
 import database from "../../database";
 import Account from '../../models/Account';
+import { SliderHuePicker } from 'react-native-slider-color-picker';
+import tinycolor from 'tinycolor2';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+
+const GestureHandlerWrapper = gestureHandlerRootHOC(
+    ({ children }) => <View style={{
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: "flex-start",
+        alignItems: "center"
+    }}>{children}</View>,
+);
 
 const accountsCollection = database.get('accounts');
 
@@ -22,13 +34,21 @@ export default function AccountScreen() {
         name: '',
         total: 0.0,
     });
+    const [color, setColor] = useState('#FF7700');
+    const [picker, setPicker] = useState();
+
+    const changeColor = (colorHsvOrRgb, resType) => {
+        if (resType === 'end') {
+            setColor(tinycolor(colorHsvOrRgb).toHexString());
+        }
+    }
 
     const submitForm = async () => {
         await database.write(async () => {
-            const newAccount = await accountsCollection.create((account: Account) => {
+            await accountsCollection.create((account: Account) => {
                 account.name = form.name,
                 account.total = +form.total,
-                account.color = ''
+                account.color = color
             });
         });
 
@@ -42,7 +62,7 @@ export default function AccountScreen() {
             await updateAccount.update((account: Account) => {
                 account.name = editForm.name,
                 account.total = +editForm.total,
-                account.color = ''
+                account.color = color
             });
         });
 
@@ -89,7 +109,8 @@ export default function AccountScreen() {
                     setModalVisible(!modalVisible);
                 }}
             >
-                <View style={styles.centeredView}>
+                <GestureHandlerWrapper>
+                {/* <View style={styles.centeredView}> */}
                     <View style={styles.modalView}>
                         <Text style={styles.modalTitle}>New Account</Text>
                         <Input
@@ -105,7 +126,29 @@ export default function AccountScreen() {
                             value={form.total.toString()}
                             onChangeText={value => setForm((prev) => ({ ...prev, total: value }))}
                         />
-                        <Button title="Save" onPress={submitForm} />
+                        <View style={{marginTop: 10, height: 12, width: "100%"}}>
+                            <SliderHuePicker
+                                ref={view => { setPicker(view); }}
+                                oldColor={color}
+                                trackStyle={[{ height: 12, width: "100%" }]}
+                                thumbStyle={{
+                                    width: 20,
+                                    height: 20,
+                                    borderColor: 'white',
+                                    borderWidth: 1,
+                                    borderRadius: 10,
+                                    shadowColor: 'black',
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 2
+                                    },
+                                    shadowRadius: 2,
+                                    shadowOpacity: 0.35}}
+                                useNativeDriver={false}
+                                onColorChange={changeColor}
+                            />
+                        </View>
+                        <Button title="Save" onPress={submitForm} containerStyle={{ marginTop: 30 }} />
                         <Button
                             containerStyle={{ marginTop: 10 }}
                             title="Cancel"
@@ -113,7 +156,8 @@ export default function AccountScreen() {
                             onPress={() => setModalVisible(false)}
                         />
                     </View>
-                </View>
+                {/* </View> */}
+                </GestureHandlerWrapper>
             </Modal>
             <Modal
                 presentationStyle="overFullScreen"
@@ -124,7 +168,8 @@ export default function AccountScreen() {
                     setEditModalVisible(!editModalVisible);
                 }}
             >
-                <View style={styles.centeredView}>
+                <GestureHandlerWrapper>
+                {/* <View style={styles.centeredView}> */}
                     <View style={styles.modalView}>
                         <Text style={styles.modalTitle}>Edit Account</Text>
                         <Input
@@ -140,7 +185,30 @@ export default function AccountScreen() {
                             value={editForm.total.toString()}
                             onChangeText={value => setEditForm((prev) => ({ ...prev, total: value }))}
                         />
-                        <Button title="Update" onPress={updateForm} />
+                        <View style={{ marginTop: 10, height: 12, width: "100%" }}>
+                            <SliderHuePicker
+                                ref={view => { setPicker(view); }}
+                                oldColor={color}
+                                trackStyle={[{ height: 12, width: "100%" }]}
+                                thumbStyle={{
+                                    width: 20,
+                                    height: 20,
+                                    borderColor: 'white',
+                                    borderWidth: 1,
+                                    borderRadius: 10,
+                                    shadowColor: 'black',
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 2
+                                    },
+                                    shadowRadius: 2,
+                                    shadowOpacity: 0.35
+                                }}
+                                useNativeDriver={false}
+                                onColorChange={changeColor}
+                            />
+                        </View>
+                        <Button title="Update" onPress={updateForm} containerStyle={{ marginTop: 30 }} />
                         <Button
                             containerStyle={{ marginTop: 10 }}
                             title="Cancel"
@@ -148,7 +216,8 @@ export default function AccountScreen() {
                             onPress={() => setEditModalVisible(false)}
                         />
                     </View>
-                </View>
+                {/* </View> */}
+                </GestureHandlerWrapper>
             </Modal>
             <ScrollView>
                 <Card containerStyle={{ marginBottom: 15 }}>
