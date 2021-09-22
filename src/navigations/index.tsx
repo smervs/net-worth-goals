@@ -1,15 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon, Text } from "react-native-elements";
 
-import HomeScreen from "../modules/home";
-import AccountScreen from "../modules/accounts";
-import GoalScreen from "../modules/goals";
-import NetworthScreen from "../modules/networth";
-import HistoryScreen from "../modules/history";
+import HomeScreen from "modules/home";
+import AccountScreen from "modules/accounts";
+import GoalScreen from "modules/goals";
+import NetworthScreen from "modules/networth";
+import HistoryScreen from "modules/history";
 import { View } from 'react-native';
-import { Background } from 'victory-core';
 
 const Tab = createBottomTabNavigator();
 

@@ -4,8 +4,8 @@ import { Text, Input, Button } from "react-native-elements";
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { SliderHuePicker } from 'react-native-slider-color-picker';
 import tinycolor from 'tinycolor2';
-import database from "../../../database";
-import Account from "../../../models/Account";
+import database from "database/index";
+import Account from "models/Account";
 
 const GestureHandlerWrapper = gestureHandlerRootHOC(
     ({ children }) => <View style={styles.centeredView}>{children}</View>,

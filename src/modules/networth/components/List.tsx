@@ -1,7 +1,7 @@
 import React from 'react';
-import { Alert, View } from "react-native";
+import { Alert } from "react-native";
 import { Button, ListItem, Icon } from "react-native-elements";
-import database from "../../../database";
+import database from "database/index";
 import dayjs from "dayjs";
 
 export default function List({ networths, refresh, edit }) {

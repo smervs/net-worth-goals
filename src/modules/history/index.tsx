@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
-import { Screen } from "../common/components";
+import { Screen } from "modules/common/components";
 
 export default function HistoryScreen() {
     return (

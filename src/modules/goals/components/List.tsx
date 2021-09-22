@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert } from "react-native";
 import { Button, ListItem, Icon } from "react-native-elements";
-import database from "../../../database";
+import database from "database/index";
 
 export default function List({ goals, refresh, edit }) {
     const deleteGoal = async (goal) => {

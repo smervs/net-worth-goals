@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Text, ScrollView } from 'react-native';
-import { Screen } from "../common/components";
+import { Screen } from "modules/common/components";
 import { FAB, Icon, Card } from "react-native-elements";
-import List from "./components/List";
-import database from "../../database";
-import Account from '../../models/Account';
 import { Q } from '@nozbe/watermelondb';
 import dayjs from "dayjs";
-import Networth from '../../models/Networth';
-import AddModal from './components/AddModal';
-import EditModal from './components/EditModal';
+import database from "database/index";
+import Account from 'models/Account';
+import Networth from 'models/Networth';
+import List from "modules/accounts/components/List";
+import AddModal from 'modules/accounts/components/AddModal';
+import EditModal from 'modules/accounts/components/EditModal';
 
 const accountsCollection = database.get('accounts');
 const networthsCollection = database.get('networths');

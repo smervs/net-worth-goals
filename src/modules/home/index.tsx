@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView } from 'react-native';
-import { Screen } from "../common/components";
+import { Screen } from "modules/common/components";
 import { Card } from "react-native-elements";
 import { VictoryPie, VictoryLabel, VictoryChart, VictoryLine } from "victory-native";
-import database from "../../database";
-import Account from '../../models/Account';
-import Networth from '../../models/Networth';
+import database from "database/index";
+import Account from 'models/Account';
+import Networth from 'models/Networth';
 import dayjs from "dayjs";
 
 const accountsCollection = database.get('accounts');

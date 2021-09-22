@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { ScrollView } from 'react-native';
-import { Screen } from "../common/components";
-import List from "./components/List";
-import database from "../../database";
+import { Screen } from "modules/common/components";
+import List from "modules/networth/components/List";
+import database from "database/index";
 import { Q } from '@nozbe/watermelondb';
 
 const networthsCollection = database.get('networths');

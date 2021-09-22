@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Modal, ScrollView, StyleSheet } from 'react-native';
-import { Screen } from "../common/components";
+import { Screen } from "modules/common/components";
 import { FAB, Icon, Input, Button } from "react-native-elements";
-import List from "./components/List";
-import database from "../../database";
-import Goal from '../../models/Goal';
+import List from "modules/goals/components/List";
+import database from "database/index";
+import Goal from 'models/Goal';
 import { Picker } from '@react-native-picker/picker';
 
 const goalsCollection = database.get('goals');

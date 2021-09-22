@@ -2,11 +2,11 @@ import { Platform } from 'react-native';
 import { Database } from '@nozbe/watermelondb';
 import SQLiteAdapter from '@nozbe/watermelondb/adapters/sqlite';
 
-import schema from './schema';
-import migrations from './migrations';
-import Account from '../models/Account';
-import Goal from '../models/Goal';
-import Networth from '../models/Networth';
+import schema from 'database/schema';
+import migrations from 'database/migrations';
+import Account from 'models/Account';
+import Goal from 'models/Goal';
+import Networth from 'models/Networth';
 
 // First, create the adapter to the underlying database:
 const adapter = new SQLiteAdapter({
