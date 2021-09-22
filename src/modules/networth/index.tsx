@@ -19,7 +19,7 @@ export default function NetworthScreen() {
             Q.unsafeSqlQuery(
                 'select * from networths order by date desc'
             )
-        ).unsafeFetchRaw();
+        ).fetch();
 
         setNetworths(list);
     }

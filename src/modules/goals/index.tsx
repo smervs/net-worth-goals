@@ -18,24 +18,24 @@ export default function GoalScreen() {
     const [editModalVisible, setEditModalVisible] = useState(false);
     const [form, setForm] = useState({
         name: '',
-        amount: 0.0,
+        amount: '',
     });
     const [updateGoal, setUpdateGoal] = useState(null);
     const [editForm, setEditForm] = useState({
         name: '',
-        amount: 0.0,
+        amount: '',
     });
 
     const submitForm = async () => {
         await database.write(async () => {
             const data = await goalsCollection.create((goal: Goal) => {
                 goal.name = form.name;
-                goal.amount = +form.amount;
+                goal.amount = Number.parseFloat(form.amount);
                 goal.account.id = selectedAccount;
             });
         });
 
-        setForm({ name: '', amount: 0.0 });
+        setForm({ name: '', amount: '' });
         setModalVisible(false);
         getGoals();
     };
@@ -44,12 +44,12 @@ export default function GoalScreen() {
         await database.write(async () => {
             await updateGoal.update((goal: Goal) => {
                 goal.name = editForm.name,
-                goal.amount = +editForm.amount;
+                goal.amount = Number.parseFloat(editForm.amount);
                 goal.account.id = selectedAccount;
             });
         });
 
-        setEditForm({ name: '', amount: 0.0 });
+        setEditForm({ name: '', amount: '' });
         setEditModalVisible(false);
         getGoals();
     };
