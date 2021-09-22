@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Modal, ScrollView, StyleSheet } from 'react-native';
 import { Screen } from "../common/components";
-import { FAB, Icon, Input, Button, Card } from "react-native-elements";
+import { FAB, Icon, Input, Button } from "react-native-elements";
 import List from "./components/List";
 import database from "../../database";
 import Goal from '../../models/Goal';
+import { Picker } from '@react-native-picker/picker';
 
 const goalsCollection = database.get('goals');
+const accountsCollection = database.get('accounts');
 
 export default function GoalScreen() {
+    const [selectedAccount, setSelectedAccount] = useState();
+    const [accounts, setAccounts] = useState([]);
     const [goals, setGoals] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [editModalVisible, setEditModalVisible] = useState(false);
@@ -24,9 +28,10 @@ export default function GoalScreen() {
 
     const submitForm = async () => {
         await database.write(async () => {
-            await goalsCollection.create((goal: Goal) => {
-                goal.name = form.name,
-                goal.amount = +form.amount
+            const data = await goalsCollection.create((goal: Goal) => {
+                goal.name = form.name;
+                goal.amount = +form.amount;
+                goal.account.id = selectedAccount;
             });
         });
 
@@ -39,7 +44,8 @@ export default function GoalScreen() {
         await database.write(async () => {
             await updateGoal.update((goal: Goal) => {
                 goal.name = editForm.name,
-                goal.amount = +editForm.amount
+                goal.amount = +editForm.amount;
+                goal.account.id = selectedAccount;
             });
         });
 
@@ -48,11 +54,14 @@ export default function GoalScreen() {
         getGoals();
     };
 
-    const editGoal = (goal) => {
+    const editGoal = async (goal) => {
+        const account = await goal.account.fetch();
         setEditForm({
             name: goal.name,
             amount: goal.amount
         });
+        if (account)
+            setSelectedAccount(account.id);
         setUpdateGoal(goal);
         setEditModalVisible(true);
     }
@@ -67,8 +76,14 @@ export default function GoalScreen() {
         setGoals(list);
     }
 
+    const getAccounts = async () => {
+        const list = await accountsCollection.query().fetch();
+        setAccounts(list);
+    }
+
     useEffect(() => {
         getGoals();
+        getAccounts();
     }, []);
 
     return (
@@ -98,6 +113,15 @@ export default function GoalScreen() {
                             value={form.amount.toString()}
                             onChangeText={value => setForm((prev) => ({ ...prev, amount: value }))}
                         />
+                        <Picker
+                            selectedValue={selectedAccount}
+                            onValueChange={(itemValue, itemIndex) =>
+                                setSelectedAccount(itemValue)
+                            }>
+                            {accounts.map(account => (
+                                <Picker.Item key={account.id} label={account.name} value={account.id} />
+                            ))}
+                        </Picker>
                         <Button title="Save" onPress={submitForm} containerStyle={{ marginTop: 30 }} />
                         <Button
                             containerStyle={{ marginTop: 10 }}
@@ -133,6 +157,15 @@ export default function GoalScreen() {
                             value={editForm.amount.toString()}
                             onChangeText={value => setEditForm((prev) => ({ ...prev, amount: value }))}
                         />
+                        <Picker
+                            selectedValue={selectedAccount}
+                            onValueChange={(itemValue, itemIndex) =>
+                                setSelectedAccount(itemValue)
+                            }>
+                            {accounts.map(account => (
+                                <Picker.Item key={account.id} label={account.name} value={account.id} />
+                            ))}
+                        </Picker>
                         <Button title="Update" onPress={updateForm} containerStyle={{ marginTop: 30 }} />
                         <Button
                             containerStyle={{ marginTop: 10 }}

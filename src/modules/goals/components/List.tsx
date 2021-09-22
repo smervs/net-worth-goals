@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, View } from "react-native";
+import { Alert } from "react-native";
 import { Button, ListItem, Icon } from "react-native-elements";
 import database from "../../../database";
 
@@ -37,6 +37,7 @@ export default function List({ goals, refresh, edit }) {
 
     return goals.map(goal => (
         <ListItem.Swipeable
+            key={goal.id}
             leftContent={
                 <Button
                     title="Edit"
@@ -53,7 +54,7 @@ export default function List({ goals, refresh, edit }) {
                     onPress={() => deleteHandler(goal)}
                 />
             }
-            key={goal.id} bottomDivider>
+            bottomDivider>
             <ListItem.Content>
                 <ListItem.Title>{goal.name}</ListItem.Title>
                 <ListItem.Subtitle>{goal.amount}</ListItem.Subtitle>

@@ -5,11 +5,15 @@ import { Card } from "react-native-elements";
 import { VictoryPie, VictoryLabel, VictoryChart, VictoryLine } from "victory-native";
 import database from "../../database";
 import Account from '../../models/Account';
+import Networth from '../../models/Networth';
+import dayjs from "dayjs";
 
 const accountsCollection = database.get('accounts');
+const networthsCollection = database.get('networths');
 
 export default function HomeScreen() {
     const [series, setSeries] = useState([]);
+    const [networths, setNetworths] = useState([]);
     const [colors, setColors] = useState([]);
 
     const getAccounts = async () => {
@@ -24,8 +28,15 @@ export default function HomeScreen() {
         setColors(colorData);
     }
 
+    const getNetworths = async () => {
+        const networths = await networthsCollection.query().fetch();
+        const data = networths.map((net: Networth) => ({ x: dayjs(net.date).format('YYYY-MM-DD'), y: net.amount }));
+        setNetworths(data);
+    }
+
     useEffect(() => {
         getAccounts();
+        getNetworths();
     }, []);
 
     return (
@@ -64,13 +75,7 @@ export default function HomeScreen() {
                         <VictoryChart>
                             <VictoryLine
                                 interpolation="natural"
-                                data={[
-                                    { x: 1, y: 2 },
-                                    { x: 2, y: 3 },
-                                    { x: 3, y: 5 },
-                                    { x: 4, y: 4 },
-                                    { x: 5, y: 6 }
-                                ]}
+                                data={networths}
                             />
                         </VictoryChart>
                     </View>

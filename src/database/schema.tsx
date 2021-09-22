@@ -16,7 +16,7 @@ export default appSchema({
             columns: [
                 { name: 'name', type: 'string' },
                 { name: 'amount', type: 'number' },
-                { name: 'account_id', type: 'number' },
+                { name: 'account_id', type: 'string' },
             ]
         }),
         tableSchema({
