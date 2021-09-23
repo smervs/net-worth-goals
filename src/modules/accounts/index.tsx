@@ -16,7 +16,6 @@ const networthsCollection = database.get('networths');
 
 export default function AccountScreen() {
     const [sum, setSum] = useState(0);
-    const [accounts, setAccounts] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [editModalVisible, setEditModalVisible] = useState(false);
     const [updateAccount, setUpdateAccount] = useState(null);
@@ -24,10 +23,6 @@ export default function AccountScreen() {
     const editAccount = (account) => {
         setUpdateAccount(account);
         setEditModalVisible(true);
-    }
-
-    const refreshList = () => {
-        getAccounts();
     }
 
     const updateNetworth = async (totalNetworth) => {
@@ -61,7 +56,6 @@ export default function AccountScreen() {
 
         await updateNetworth(totalAmount);
         setSum(totalAmount);
-        setAccounts(list);
     }
 
     useEffect(() => {
@@ -86,7 +80,7 @@ export default function AccountScreen() {
                     <Text>Total</Text>
                     <Text>$ {sum}</Text>
                 </Card>
-                {accounts && <EnhancedList accounts={accounts} onEdit={editAccount} />}
+                {<EnhancedList accounts={accountsCollection} onEdit={editAccount} />}
             </ScrollView>
             <FAB
                 onPress={() => setModalVisible(true)}

@@ -2,8 +2,9 @@ import React from 'react';
 import { Alert } from "react-native";
 import { Button, ListItem, Icon } from "react-native-elements";
 import database from "database/index";
+import withObservables from '@nozbe/with-observables';
 
-export default function List({ goals, refresh, edit }) {
+const List = ({ goals, refresh, edit }) => {
     const deleteGoal = async (goal) => {
         await database.write(async () => {
             goal.destroyPermanently();
@@ -62,3 +63,10 @@ export default function List({ goals, refresh, edit }) {
         </ListItem.Swipeable>
     ));
 };
+
+const enhance = withObservables(['goals'], (props) => ({
+    goals: props.goals.query()
+}));
+
+const EnhancedList = enhance(List);
+export default EnhancedList;

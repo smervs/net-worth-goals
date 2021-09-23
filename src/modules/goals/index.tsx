@@ -6,6 +6,7 @@ import List from "modules/goals/components/List";
 import database from "database/index";
 import Goal from 'models/Goal';
 import { Picker } from '@react-native-picker/picker';
+import EnhancedList from "modules/goals/components/List";
 
 const goalsCollection = database.get('goals');
 const accountsCollection = database.get('accounts');
@@ -76,15 +77,15 @@ export default function GoalScreen() {
         setGoals(list);
     }
 
-    const getAccounts = async () => {
-        const list = await accountsCollection.query().fetch();
-        setAccounts(list);
-    }
+    // const getAccounts = async () => {
+    //     const list = await accountsCollection.query().fetch();
+    //     setAccounts(list);
+    // }
 
-    useEffect(() => {
-        getGoals();
-        getAccounts();
-    }, []);
+    // useEffect(() => {
+    //     getGoals();
+    //     getAccounts();
+    // }, []);
 
     return (
         <Screen>
@@ -177,7 +178,7 @@ export default function GoalScreen() {
                 </View>
             </Modal>
             <ScrollView>
-                <List goals={goals} refresh={refreshList} edit={editGoal} />
+                <EnhancedList goals={goalsCollection} refresh={refreshList} edit={editGoal} />
             </ScrollView>
             <FAB
                 onPress={() => setModalVisible(true)}

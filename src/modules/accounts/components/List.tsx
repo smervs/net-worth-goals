@@ -42,8 +42,8 @@ const List = ({ accounts, onEdit }) => {
 };
 
 const enhance = withObservables(['accounts'], (props) => ({
-    accounts: props.accounts
+    accounts: props.accounts.query()
 }));
 
 const EnhancedList = enhance(List);
-export default List;
+export default EnhancedList;
