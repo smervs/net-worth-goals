@@ -15,16 +15,16 @@ const Tab = createBottomTabNavigator();
 const options = (label: string, icon: string = 'home', iconType: string = 'feather') => {
     return {
         tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
-            focused ? <View style={{ backgroundColor: 'rgba(156, 163, 175, 0.4)', padding: 8, borderRadius: 30 }}>
+            focused ? <View style={{ backgroundColor: 'rgba(156, 163, 175, 0.4)', padding: 12, borderRadius: 30 }}>
                 <Icon name={icon} type={iconType} color={color} />
             </View> :
                 <Icon name={icon} type={iconType} color="#9CA3AF" />
         ),
-        tabBarLabel: ({ focused }: { focused: boolean }) => {
-            if (focused) {
-                return <Text style={{ color: '#00214d' }}>{label}</Text>;
-            }
-        }
+        // tabBarLabel: ({ focused }: { focused: boolean }) => {
+        //     if (focused) {
+        //         return <Text style={{ color: '#00214d' }}>{label}</Text>;
+        //     }
+        // }
     }
 }
 
@@ -35,7 +35,8 @@ export default function Navigation() {
                 screenOptions={({ route }) => ({
                     tabBarActiveTintColor: '#ff5470',
                     tabBarInactiveTintColor: '#ff5470',
-                    headerShown: false,
+                    // headerShown: false,
+                    tabBarShowLabel: false,
                     tabBarStyle: {
                         height: 70,
                         // padding: 10,

@@ -7,7 +7,7 @@ import dayjs from "dayjs";
 import database from "database/index";
 import Account from 'models/Account';
 import Networth from 'models/Networth';
-import List from "modules/accounts/components/List";
+import EnhancedList from "modules/accounts/components/List";
 import AddModal from 'modules/accounts/components/AddModal';
 import EditModal from 'modules/accounts/components/EditModal';
 
@@ -73,12 +73,12 @@ export default function AccountScreen() {
             <AddModal
                 visible={modalVisible}
                 setVisible={setModalVisible}
-                onSubmit={() => getAccounts()}
+                onSubmit={() => {}}
             />
             <EditModal
                 visible={editModalVisible}
                 setVisible={setEditModalVisible}
-                onSubmit={() => getAccounts()}
+                onSubmit={() => {}}
                 selectedAccount={updateAccount}
             />
             <ScrollView>
@@ -86,7 +86,7 @@ export default function AccountScreen() {
                     <Text>Total</Text>
                     <Text>$ {sum}</Text>
                 </Card>
-                <List accounts={accounts} refresh={refreshList} edit={editAccount} />
+                {accounts && <EnhancedList accounts={accounts} onEdit={editAccount} />}
             </ScrollView>
             <FAB
                 onPress={() => setModalVisible(true)}

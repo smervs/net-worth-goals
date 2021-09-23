@@ -2,12 +2,13 @@ import React from 'react';
 import { Alert, View } from "react-native";
 import { Button, ListItem, Icon } from "react-native-elements";
 import database from "database/index";
+import EnhancedListItem from "modules/accounts/components/ListItem";
+import withObservables from '@nozbe/with-observables';
 
-export default function List({ accounts, refresh, edit }) {
+const List = ({ accounts, onEdit }) => {
     const deleteAccount = async (account) => {
         await database.write(async () => {
             account.destroyPermanently();
-            refresh();
         });
     };
 
@@ -35,30 +36,14 @@ export default function List({ accounts, refresh, edit }) {
         );
     };
 
-    return accounts.map(account => (
-        <ListItem.Swipeable
-            leftContent={
-                <Button
-                    title="Edit"
-                    icon={<Icon name="edit" type="feather" color="white" containerStyle={{ marginRight: 8 }} />}
-                    buttonStyle={{ minHeight: '100%' }}
-                    onPress={() => edit(account)}
-                />
-            }
-            rightContent={
-                <Button
-                    title="Delete"
-                    icon={{ name: 'delete', color: 'white' }}
-                    buttonStyle={{ minHeight: '100%', backgroundColor: '#ff5470' }}
-                    onPress={() => deleteHandler(account)}
-                />
-            }
-            key={account.id} bottomDivider>
-            <View style={{ height: 20, width: 20, backgroundColor: account.color }}></View>
-            <ListItem.Content>
-                <ListItem.Title>{account.name}</ListItem.Title>
-                <ListItem.Subtitle>{account.total}</ListItem.Subtitle>
-            </ListItem.Content>
-        </ListItem.Swipeable>
+    return accounts && accounts.map(account => (
+        <EnhancedListItem account={account} key={account.id} onEdit={onEdit} onDelete={deleteHandler} />
     ));
 };
+
+const enhance = withObservables(['accounts'], (props) => ({
+    accounts: props.accounts
+}));
+
+const EnhancedList = enhance(List);
+export default List;
