@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Text, ScrollView } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Screen } from "modules/common/components";
-import { FAB, Icon, Card } from "react-native-elements";
+import { FAB, Icon } from "react-native-elements";
 import { Q } from '@nozbe/watermelondb';
 import dayjs from "dayjs";
 import database from "database/index";
-import Account from 'models/Account';
 import Networth from 'models/Networth';
 import EnhancedList from "modules/accounts/components/List";
 import AddModal from 'modules/accounts/components/AddModal';
@@ -15,7 +14,6 @@ const accountsCollection = database.get('accounts');
 const networthsCollection = database.get('networths');
 
 export default function AccountScreen() {
-    const [sum, setSum] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
     const [editModalVisible, setEditModalVisible] = useState(false);
     const [updateAccount, setUpdateAccount] = useState(null);
@@ -48,20 +46,6 @@ export default function AccountScreen() {
         }
     }
 
-    const getAccounts = async () => {
-        const list = await accountsCollection.query().fetch();
-        const totalAmount = list.reduce((prev: number, model: Account) => {
-            return prev + model.total;
-        }, 0);
-
-        await updateNetworth(totalAmount);
-        setSum(totalAmount);
-    }
-
-    useEffect(() => {
-        getAccounts();
-    }, []);
-
     return (
         <Screen>
             <AddModal
@@ -76,10 +60,6 @@ export default function AccountScreen() {
                 selectedAccount={updateAccount}
             />
             <ScrollView>
-                <Card containerStyle={{ marginBottom: 15 }}>
-                    <Text>Total</Text>
-                    <Text>$ {sum}</Text>
-                </Card>
                 {<EnhancedList accounts={accountsCollection} onEdit={editAccount} />}
             </ScrollView>
             <FAB
