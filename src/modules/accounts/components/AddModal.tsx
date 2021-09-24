@@ -50,12 +50,26 @@ export default function AddModal({ visible, setVisible }) {
                 <View style={styles.modalView}>
                     <Text style={styles.modalTitle}>New Account</Text>
                     <Input
+                        inputStyle={{ borderWidth: 2,
+                            borderRadius: 10,
+                            paddingHorizontal: 15,
+                            margin: 0
+                        }}
+                        placeholderTextColor="#fff"
+                        inputContainerStyle={{borderBottomWidth: 0, padding: 0}}
                         label="Name"
                         placeholder="Name"
                         value={form.name}
                         onChangeText={value => setForm((prev) => ({ ...prev, name: value }))}
                     />
                     <Input
+                        inputStyle={{
+                            borderWidth: 2,
+                            borderRadius: 10,
+                            paddingHorizontal: 15
+                        }}
+                        placeholderTextColor="#fff"
+                        inputContainerStyle={{ borderBottomWidth: 0 }}
                         keyboardType='numeric'
                         label="Current Balance"
                         placeholder="Current Balance"
@@ -84,9 +98,19 @@ export default function AddModal({ visible, setVisible }) {
                             onColorChange={changeColor}
                         />
                     </View>
-                    <Button title="Save" onPress={submitForm} containerStyle={{ marginTop: 30 }} />
+                    <Button title="Save" onPress={submitForm}
+                        containerStyle={{
+                            marginTop: 30,
+                            borderWidth: 2,
+                            borderRadius: 6,
+                            borderColor: '#000'
+                        }} />
                     <Button
-                        containerStyle={{ marginTop: 10 }}
+                        containerStyle={{
+                            marginTop: 10,
+                            borderWidth: 2,
+                            borderRadius: 6,
+                            borderColor: '#000' }}
                         title="Cancel"
                         type="outline"
                         onPress={() => setVisible(false)}
@@ -106,6 +130,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     modalView: {
+        borderWidth: 2,
+        borderColor: '#000',
         width: "90%",
         margin: 20,
         backgroundColor: "white",
