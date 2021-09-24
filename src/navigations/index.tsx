@@ -17,16 +17,10 @@ const options = (label: string, icon: string = 'home', iconType: string = 'feath
     return {
         tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
             focused ? <View style={{ padding: 12, borderRadius: 30 }}>
-                <Icon name={icon} type={iconType} color={color} />
+                <Icon name={icon} type={iconType} />
             </View> :
-                <Icon name={icon} type={iconType} color="#9CA3AF" />
-        ),
-        // tabBarIcon: (<Icon name={icon} type={iconType} color="#9CA3AF" />)
-        // tabBarLabel: ({ focused }: { focused: boolean }) => {
-        //     if (focused) {
-        //         return <Text style={{ color: '#00214d' }}>{label}</Text>;
-        //     }
-        // }
+                <Icon name={icon} type={iconType} />
+        )
     }
 }
 
@@ -36,19 +30,9 @@ export default function Navigation() {
             <Tab.Navigator
                 tabBar={props => <TabBar {...props} />}
                 screenOptions={({ route }) => ({
-                    tabBarActiveTintColor: '#ff5470',
-                    tabBarInactiveTintColor: '#ff5470',
-                    // headerShown: false,
-                    tabBarShowLabel: false,
-                    tabBarStyle: {
-                        height: 70,
-                        // padding: 10,
-                        // marginHorizontal: 10,
-                        // borderRadius: 40,
-                        borderTopRightRadius: 30,
-                        borderTopLeftRadius: 30,
-                        // elevation: 4,
-                        // marginBottom: 10
+                    headerStyle: {
+                        borderBottomWidth: 2,
+                        borderBottomColor: '#000'
                     }
                 })}>
                 <Tab.Screen name="Home" component={HomeScreen} options={options('Home', 'home')}/>

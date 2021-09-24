@@ -181,10 +181,11 @@ export default function GoalScreen() {
                 <EnhancedList goals={goalsCollection} refresh={refreshList} edit={editGoal} />
             </ScrollView>
             <FAB
+                containerStyle={{ marginBottom: 60 }}
                 onPress={() => setModalVisible(true)}
                 title={<Icon type="font-awesome-5" name="plus" size={18} color="#fff" />}
                 placement="right"
-                color="#00ebc7" />
+                color="#ff5470" />
         </Screen>
     );
 }

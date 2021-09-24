@@ -19,15 +19,14 @@ export default function TabBar({ state, descriptors, navigation }) {
         animateSlider(state.index);
     }, [state.index]);
 
-    // console.log(descriptors[route.key])
     return (
-        <View style={{ flexDirection: 'row' }}>
+        <View style={[style.tabContainer, {width: totalWidth}]}>
             <Animated.View
                 style={[
                     style.slider,
                     {
                         transform: [{ translateX: translateValue }],
-                        width: tabWidth - 50,
+                        width: tabWidth - 48,
                     },
                 ]}
             />
@@ -67,7 +66,7 @@ export default function TabBar({ state, descriptors, navigation }) {
                         padding: 4
                     }}
                     >
-                        {options.tabBarIcon({ color: '#673ab7', focused: isFocused})}
+                        {options.tabBarIcon({ color: '#000', focused: isFocused})}
                     </TouchableOpacity>
                 );
             })}
@@ -77,29 +76,33 @@ export default function TabBar({ state, descriptors, navigation }) {
 
 const style = StyleSheet.create({
     tabContainer: {
+        borderColor: '#000',
+        borderWidth: 2,
+        flexDirection: 'row',
+        backgroundColor: '#fffffe',
         height: 60,
+        overflow: 'hidden',
         shadowOffset: {
             width: 0,
             height: -1,
         },
         shadowOpacity: 0.1,
-        shadowRadius: 4.0,
-        backgroundColor: "white",
-        borderTopRightRadius: 20,
-        borderTopLeftRadius: 20,
+        shadowRadius: 20.0,
+        borderTopRightRadius: 30,
+        borderTopLeftRadius: 30,
         elevation: 10,
-        position: "absolute",
         bottom: 0,
+        position: 'absolute'
     },
     slider: {
         width: 50,
         padding: 10,
-        height: "82%",
+        height: "84%",
         position: "absolute",
         opacity: 0.4,
         top: "10%",
-        left: 25,
-        backgroundColor: "#3A36D5",
-        borderRadius: 50,
+        left: 23,
+        backgroundColor: "#00ebc7",
+        borderRadius: 50
     },
 });

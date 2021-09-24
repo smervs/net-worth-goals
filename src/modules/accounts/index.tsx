@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { Screen } from "modules/common/components";
-import { FAB, Icon } from "react-native-elements";
+import { FAB, Icon, Text } from "react-native-elements";
 import database from "database/index";
 import EnhancedList from "modules/accounts/components/List";
 import AddModal from 'modules/accounts/components/AddModal';
@@ -34,10 +34,11 @@ export default function AccountScreen() {
                 {<EnhancedList accounts={accountsCollection} onEdit={editAccount} />}
             </ScrollView>
             <FAB
+                containerStyle={{ marginBottom: 60 }}
                 onPress={() => setModalVisible(true)}
                 title={<Icon type="font-awesome-5" name="plus" size={18} color="#fff" />}
                 placement="right"
-                color="#00ebc7" />
+                color="#ff5470" />
         </Screen>
     );
 }
