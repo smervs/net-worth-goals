@@ -9,17 +9,19 @@ import GoalScreen from "modules/goals";
 import NetworthScreen from "modules/networth";
 import HistoryScreen from "modules/history";
 import { View } from 'react-native';
+import TabBar from "modules/common/components/TabBar";
 
 const Tab = createBottomTabNavigator();
 
 const options = (label: string, icon: string = 'home', iconType: string = 'feather') => {
     return {
         tabBarIcon: ({ color, focused }: { color: string, focused: boolean }) => (
-            focused ? <View style={{ backgroundColor: 'rgba(156, 163, 175, 0.4)', padding: 12, borderRadius: 30 }}>
+            focused ? <View style={{ padding: 12, borderRadius: 30 }}>
                 <Icon name={icon} type={iconType} color={color} />
             </View> :
                 <Icon name={icon} type={iconType} color="#9CA3AF" />
         ),
+        // tabBarIcon: (<Icon name={icon} type={iconType} color="#9CA3AF" />)
         // tabBarLabel: ({ focused }: { focused: boolean }) => {
         //     if (focused) {
         //         return <Text style={{ color: '#00214d' }}>{label}</Text>;
@@ -32,6 +34,7 @@ export default function Navigation() {
     return (
         <NavigationContainer>
             <Tab.Navigator
+                tabBar={props => <TabBar {...props} />}
                 screenOptions={({ route }) => ({
                     tabBarActiveTintColor: '#ff5470',
                     tabBarInactiveTintColor: '#ff5470',
