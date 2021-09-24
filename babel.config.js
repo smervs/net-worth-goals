@@ -11,6 +11,7 @@ module.exports = {
                     modules: "./src/modules",
                     models: "./src/models",
                     database: "./src/database",
+                    services: "./src/services",
                 },
                 extensions: [".js", ".jsx", ".tsx", ".ios.js", ".android.js"],
             },

@@ -6,6 +6,7 @@ import { SliderHuePicker } from 'react-native-slider-color-picker';
 import tinycolor from 'tinycolor2';
 import database from "database/index";
 import Account from "models/Account";
+import { sync as syncNetworth } from "services/networth";
 
 const GestureHandlerWrapper = gestureHandlerRootHOC(
     ({ children }) => <View style={styles.centeredView}>{children}</View>,
@@ -13,7 +14,7 @@ const GestureHandlerWrapper = gestureHandlerRootHOC(
 
 const accountsCollection = database.get('accounts');
 
-export default function AddModal({ visible, setVisible, onSubmit }) {
+export default function AddModal({ visible, setVisible }) {
     const [form, setForm] = useState({ name: '', total: '' });
     const [color, setColor] = useState('#FF7700');
 
@@ -34,7 +35,7 @@ export default function AddModal({ visible, setVisible, onSubmit }) {
 
         setForm({ name: '', total: '' });
         setVisible(false);
-        onSubmit();
+        syncNetworth();
     };
 
     return (

@@ -4,12 +4,13 @@ import { Button, ListItem, Text, Card } from "react-native-elements";
 import database from "database/index";
 import EnhancedListItem from "modules/accounts/components/ListItem";
 import withObservables from '@nozbe/with-observables';
-import Account from 'models/Account';
+import { sync as syncNetworth } from "services/networth";
 
-const List = ({ accounts, onEdit, total }) => {
+const List = ({ accounts, onEdit }) => {
     const deleteAccount = async (account) => {
         await database.write(async () => {
             account.destroyPermanently();
+            syncNetworth();
         });
     };
 

@@ -6,12 +6,13 @@ import { SliderHuePicker } from 'react-native-slider-color-picker';
 import tinycolor from 'tinycolor2';
 import database from "database/index";
 import Account from "models/Account";
+import { sync as syncNetworth } from "services/networth";
 
 const GestureHandlerWrapper = gestureHandlerRootHOC(
     ({ children }) => <View style={styles.centeredView}>{children}</View>,
 );
 
-export default function EditModal({ visible, setVisible, onSubmit, selectedAccount }) {
+export default function EditModal({ visible, setVisible, selectedAccount }) {
     const [form, setForm] = useState({ name: '', total: '' });
     const [color, setColor] = useState(selectedAccount ? selectedAccount.color : '#FF7700');
 
@@ -32,7 +33,7 @@ export default function EditModal({ visible, setVisible, onSubmit, selectedAccou
 
         setForm({ name: '', total: '' });
         setVisible(false);
-        onSubmit();
+        syncNetworth();
     };
 
     useEffect(() => {
