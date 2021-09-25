@@ -3,6 +3,7 @@ import { Alert, View } from "react-native";
 import { Button, ListItem, Icon } from "react-native-elements";
 import database from "database/index";
 import withObservables from '@nozbe/with-observables';
+import { numberWithCommas } from "helpers/index";
 
 const List = ({ goals, refresh, edit }) => {
     const deleteGoal = async (goal) => {
@@ -91,7 +92,7 @@ const List = ({ goals, refresh, edit }) => {
                 bottomDivider>
                 <ListItem.Content>
                     <ListItem.Title>{goal.name}</ListItem.Title>
-                    <ListItem.Subtitle>{goal.amount}</ListItem.Subtitle>
+                    <ListItem.Subtitle>{numberWithCommas(goal.amount)}</ListItem.Subtitle>
                 </ListItem.Content>
             </ListItem.Swipeable>
             ))}

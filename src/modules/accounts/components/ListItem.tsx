@@ -2,11 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import { ListItem as RNEListItem, Button, Icon, Text } from "react-native-elements";
 import withObservables from '@nozbe/with-observables';
-
-const numberWithCommas = (num) => {
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-}
-
+import { numberWithCommas } from "helpers/index";
 
 const ListItem = ({ account, onEdit, onDelete, percentage }) => (
     <RNEListItem.Swipeable
