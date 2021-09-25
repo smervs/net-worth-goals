@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { View, Modal, StyleSheet } from "react-native";
-import { Text, Input, Button } from "react-native-elements";
+import { Text, Input } from "react-native-elements";
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { SliderHuePicker } from 'react-native-slider-color-picker';
 import tinycolor from 'tinycolor2';
 import database from "database/index";
 import Account from "models/Account";
 import { sync as syncNetworth } from "services/networth";
+import { ColorPicker, SubmitButton, CancelButton } from "modules/common/components/index";
 
 const GestureHandlerWrapper = gestureHandlerRootHOC(
     ({ children }) => <View style={styles.centeredView}>{children}</View>,
@@ -28,8 +28,8 @@ export default function AddModal({ visible, setVisible }) {
         await database.write(async () => {
             await accountsCollection.create((account: Account) => {
                 account.name = form.name,
-                    account.total = Number.parseFloat(form.total),
-                    account.color = color
+                account.total = Number.parseFloat(form.total),
+                account.color = color
             });
         });
 
@@ -50,26 +50,12 @@ export default function AddModal({ visible, setVisible }) {
                 <View style={styles.modalView}>
                     <Text style={styles.modalTitle}>New Account</Text>
                     <Input
-                        inputStyle={{ borderWidth: 2,
-                            borderRadius: 10,
-                            paddingHorizontal: 15,
-                            margin: 0
-                        }}
-                        placeholderTextColor="#fff"
-                        inputContainerStyle={{borderBottomWidth: 0, padding: 0}}
                         label="Name"
                         placeholder="Name"
                         value={form.name}
                         onChangeText={value => setForm((prev) => ({ ...prev, name: value }))}
                     />
                     <Input
-                        inputStyle={{
-                            borderWidth: 2,
-                            borderRadius: 10,
-                            paddingHorizontal: 15
-                        }}
-                        placeholderTextColor="#fff"
-                        inputContainerStyle={{ borderBottomWidth: 0 }}
                         keyboardType='numeric'
                         label="Current Balance"
                         placeholder="Current Balance"
@@ -77,44 +63,10 @@ export default function AddModal({ visible, setVisible }) {
                         onChangeText={value => setForm((prev) => ({ ...prev, total: value }))}
                     />
                     <View style={{ marginTop: 10, height: 12, width: "100%" }}>
-                        <SliderHuePicker
-                            oldColor={color}
-                            trackStyle={[{ height: 12, width: "100%" }]}
-                            thumbStyle={{
-                                width: 20,
-                                height: 20,
-                                borderColor: 'white',
-                                borderWidth: 1,
-                                borderRadius: 10,
-                                shadowColor: 'black',
-                                shadowOffset: {
-                                    width: 0,
-                                    height: 2
-                                },
-                                shadowRadius: 2,
-                                shadowOpacity: 0.35
-                            }}
-                            useNativeDriver={false}
-                            onColorChange={changeColor}
-                        />
+                        <ColorPicker color={color} onColorChange={changeColor} />
                     </View>
-                    <Button title="Save" onPress={submitForm}
-                        containerStyle={{
-                            marginTop: 30,
-                            borderWidth: 2,
-                            borderRadius: 6,
-                            borderColor: '#000'
-                        }} />
-                    <Button
-                        containerStyle={{
-                            marginTop: 10,
-                            borderWidth: 2,
-                            borderRadius: 6,
-                            borderColor: '#000' }}
-                        title="Cancel"
-                        type="outline"
-                        onPress={() => setVisible(false)}
-                    />
+                    <SubmitButton title="Save" onPress={submitForm} />
+                    <CancelButton title="Cancel" onPress={() => setVisible(false)} />
                 </View>
             </GestureHandlerWrapper>
         </Modal>
@@ -145,11 +97,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5
-    },
-    button: {
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
     },
     modalTitle: {
         marginBottom: 15,

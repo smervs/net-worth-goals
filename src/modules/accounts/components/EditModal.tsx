@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, Modal, StyleSheet } from "react-native";
-import { Text, Input, Button } from "react-native-elements";
+import { Text, Input } from "react-native-elements";
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import { SliderHuePicker } from 'react-native-slider-color-picker';
 import tinycolor from 'tinycolor2';
 import database from "database/index";
 import Account from "models/Account";
 import { sync as syncNetworth } from "services/networth";
+import { ColorPicker, SubmitButton, CancelButton } from "modules/common/components/index";
 
 const GestureHandlerWrapper = gestureHandlerRootHOC(
     ({ children }) => <View style={styles.centeredView}>{children}</View>,
@@ -72,21 +72,10 @@ export default function EditModal({ visible, setVisible, selectedAccount }) {
                         onChangeText={value => setForm((prev) => ({ ...prev, total: value }))}
                     />
                     <View style={{ marginTop: 10, height: 12, width: "100%" }}>
-                        <SliderHuePicker
-                            oldColor={color}
-                            trackStyle={[{ height: 12, width: "100%" }]}
-                            thumbStyle={styles.thumbStyle}
-                            useNativeDriver={false}
-                            onColorChange={changeColor}
-                        />
+                        <ColorPicker color={color} onColorChange={changeColor} />
                     </View>
-                    <Button title="Update" onPress={updateForm} containerStyle={{ marginTop: 30 }} />
-                    <Button
-                        containerStyle={{ marginTop: 10 }}
-                        title="Cancel"
-                        type="outline"
-                        onPress={() => setVisible(false)}
-                    />
+                    <SubmitButton title="Update" onPress={updateForm} />
+                    <CancelButton title="Cancel" onPress={() => setVisible(false)} />
                 </View>
             </GestureHandlerWrapper>
         </Modal>
@@ -118,19 +107,5 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         fontSize: 18,
         textAlign: 'center',
-    },
-    thumbStyle: {
-        width: 20,
-        height: 20,
-        borderColor: 'white',
-        borderWidth: 1,
-        borderRadius: 10,
-        shadowColor: 'black',
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowRadius: 2,
-        shadowOpacity: 0.35
     }
 });

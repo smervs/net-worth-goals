@@ -13,6 +13,7 @@ module.exports = {
                     database: "./src/database",
                     services: "./src/services",
                     helpers: "./src/helpers",
+                    theme: "./src/theme",
                 },
                 extensions: [".js", ".jsx", ".tsx", ".ios.js", ".android.js"],
             },
