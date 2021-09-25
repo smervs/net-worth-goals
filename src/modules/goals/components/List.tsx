@@ -39,7 +39,7 @@ const List = ({ goals, refresh, edit }) => {
     return (
         <View style={{ marginTop: 6 }}>
             {goals.map(goal => (
-                <ListItem goal={goal} edit={edit} deleteHandler={deleteHandler} />
+                <ListItem key={goal.id} goal={goal} edit={edit} deleteHandler={deleteHandler} />
             ))}
         </View>
     );

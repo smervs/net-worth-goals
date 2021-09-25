@@ -1,20 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { View } from "react-native";
 import { ListItem as RNEListItem, Text, Button, Icon } from "react-native-elements";
 import { numberWithCommas } from "helpers/index";
 import withObservables from '@nozbe/with-observables';
-import Account from "models/Account";
 
-const ListItem = ({ goal, edit, deleteHandler }) => {
-    // const [account, setAccount]: [Account, any] = useState();
-
-    // useEffect(() => {
-    //     (async () => {
-    //         const goalAccount = await goal.account.fetch();
-    //         setAccount(goalAccount);
-    //     })();
-    // }, [goal]);
-
+const ListItem = ({ goal, edit, deleteHandler, account }) => {
     return (
         <RNEListItem.Swipeable
             containerStyle={{
@@ -70,9 +60,9 @@ const ListItem = ({ goal, edit, deleteHandler }) => {
                 <RNEListItem.Title>{goal.name}</RNEListItem.Title>
                 <RNEListItem.Subtitle>{numberWithCommas(goal.amount)}</RNEListItem.Subtitle>
             </RNEListItem.Content>
-            <View>
-                <Text>20%</Text>
-                {/* <Text>{account && account.name}</Text> */}
+            <View style={{ alignItems: 'flex-end' }}>
+                <Text>{((goal.amount / account.total) * 100).toFixed(2)}%</Text>
+                <Text>{account && account.name}</Text>
             </View>
         </RNEListItem.Swipeable>
     );
@@ -80,7 +70,7 @@ const ListItem = ({ goal, edit, deleteHandler }) => {
 
 const enhance = withObservables(['goal'], (props) => ({
     goal: props.goal,
-    // account: props.goal.account.query()
+    account: props.goal.account.observe()
 }));
 
 const EnhancedListItem = enhance(ListItem);
