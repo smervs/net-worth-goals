@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, Modal, ScrollView, StyleSheet } from 'react-native';
 import { Screen } from "modules/common/components";
 import { FAB, Icon, Input, Button } from "react-native-elements";
-import List from "modules/goals/components/List";
 import database from "database/index";
 import Goal from 'models/Goal';
 import { Picker } from '@react-native-picker/picker';
 import EnhancedList from "modules/goals/components/List";
+import { SubmitButton, CancelButton } from "modules/common/components/index";
 
 const goalsCollection = database.get('goals');
 const accountsCollection = database.get('accounts');
@@ -77,15 +77,15 @@ export default function GoalScreen() {
         setGoals(list);
     }
 
-    // const getAccounts = async () => {
-    //     const list = await accountsCollection.query().fetch();
-    //     setAccounts(list);
-    // }
+    const getAccounts = async () => {
+        const list = await accountsCollection.query().fetch();
+        setAccounts(list);
+    }
 
-    // useEffect(() => {
-    //     getGoals();
-    //     getAccounts();
-    // }, []);
+    useEffect(() => {
+        // getGoals();
+        getAccounts();
+    }, []);
 
     return (
         <Screen>
@@ -114,6 +114,13 @@ export default function GoalScreen() {
                             value={form.amount.toString()}
                             onChangeText={value => setForm((prev) => ({ ...prev, amount: value }))}
                         />
+                        <Text style={{ paddingHorizontal: 15, marginBottom: 4,
+                            fontSize: 16, fontWeight: 'bold', color: "#6B7280" }}>Account Linked</Text>
+                        <View style={{
+                            borderColor: '#000',
+                            borderWidth: 2,
+                            borderRadius: 10
+                        }}>
                         <Picker
                             selectedValue={selectedAccount}
                             onValueChange={(itemValue, itemIndex) =>
@@ -123,13 +130,9 @@ export default function GoalScreen() {
                                 <Picker.Item key={account.id} label={account.name} value={account.id} />
                             ))}
                         </Picker>
-                        <Button title="Save" onPress={submitForm} containerStyle={{ marginTop: 30 }} />
-                        <Button
-                            containerStyle={{ marginTop: 10 }}
-                            title="Cancel"
-                            type="outline"
-                            onPress={() => setModalVisible(false)}
-                        />
+                        </View>
+                        <SubmitButton title="Save" onPress={submitForm} />
+                        <CancelButton title="Cancel" onPress={() => setModalVisible(false)} />
                     </View>
                 </View>
             </Modal>
@@ -158,6 +161,13 @@ export default function GoalScreen() {
                             value={editForm.amount.toString()}
                             onChangeText={value => setEditForm((prev) => ({ ...prev, amount: value }))}
                         />
+                        <Text style={{ paddingHorizontal: 15, marginBottom: 4,
+                            fontSize: 16, fontWeight: 'bold', color: "#6B7280" }}>Account Linked</Text>
+                        <View style={{
+                            borderColor: '#000',
+                            borderWidth: 2,
+                            borderRadius: 10
+                        }}>
                         <Picker
                             selectedValue={selectedAccount}
                             onValueChange={(itemValue, itemIndex) =>
@@ -167,13 +177,9 @@ export default function GoalScreen() {
                                 <Picker.Item key={account.id} label={account.name} value={account.id} />
                             ))}
                         </Picker>
-                        <Button title="Update" onPress={updateForm} containerStyle={{ marginTop: 30 }} />
-                        <Button
-                            containerStyle={{ marginTop: 10 }}
-                            title="Cancel"
-                            type="outline"
-                            onPress={() => setEditModalVisible(false)}
-                        />
+                        </View>
+                        <SubmitButton title="Update" onPress={updateForm} />
+                        <CancelButton title="Cancel" onPress={() => setEditModalVisible(false)} />
                     </View>
                 </View>
             </Modal>

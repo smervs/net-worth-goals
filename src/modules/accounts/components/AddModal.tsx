@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { View, Modal, StyleSheet } from "react-native";
 import { Text, Input } from "react-native-elements";
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import tinycolor from 'tinycolor2';
 import database from "database/index";
 import Account from "models/Account";
 import { sync as syncNetworth } from "services/networth";
@@ -17,12 +16,6 @@ const accountsCollection = database.get('accounts');
 export default function AddModal({ visible, setVisible }) {
     const [form, setForm] = useState({ name: '', total: '' });
     const [color, setColor] = useState('#FF7700');
-
-    const changeColor = (colorHsvOrRgb, resType) => {
-        if (resType === 'end') {
-            setColor(tinycolor(colorHsvOrRgb).toHexString());
-        }
-    }
 
     const submitForm = async () => {
         await database.write(async () => {
@@ -63,7 +56,7 @@ export default function AddModal({ visible, setVisible }) {
                         onChangeText={value => setForm((prev) => ({ ...prev, total: value }))}
                     />
                     <View style={{ marginTop: 10, height: 12, width: "100%" }}>
-                        <ColorPicker color={color} onColorChange={changeColor} />
+                        <ColorPicker color={color} onColorChange={(c) => setColor(c)} />
                     </View>
                     <SubmitButton title="Save" onPress={submitForm} />
                     <CancelButton title="Cancel" onPress={() => setVisible(false)} />

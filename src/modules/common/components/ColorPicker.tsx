@@ -1,15 +1,22 @@
 import React from "react";
 import { StyleSheet } from "react-native";
 import { SliderHuePicker } from 'react-native-slider-color-picker';
+import tinycolor from 'tinycolor2';
 
 export default function ColorPicker({ color, onColorChange}) {
+    const changeColor = (colorHsvOrRgb, resType) => {
+        if (resType === 'end') {
+            onColorChange(tinycolor(colorHsvOrRgb).toHexString());
+        }
+    }
+
     return (
         <SliderHuePicker
             oldColor={color}
             trackStyle={[styles.trackStyle]}
             thumbStyle={styles.thumbStyle}
             useNativeDriver={false}
-            onColorChange={onColorChange}
+            onColorChange={changeColor}
         />
     );
 }

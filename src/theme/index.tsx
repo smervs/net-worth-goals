@@ -16,28 +16,14 @@ const theme = {
             paddingHorizontal: 10
         },
         labelStyle: {
-            marginBottom: 4
+            marginBottom: 4,
+            color: '#6B7280'
         },
         placeholderTextColor: '#fff',
         errorStyle: {
             margin: 0
         }
-    },
-    // Card: {
-    //     containerStyle: {
-    //         width: '100%',
-    //         borderRadius: 15,
-    //         paddingVertical: 20,
-    //         shadowColor: "#000",
-    //         shadowOffset: {
-    //             width: 0,
-    //             height: 5,
-    //         },
-    //         shadowOpacity: 0.2,
-    //         shadowRadius: 10,
-    //         elevation: 6,
-    //     }
-    // },
+    }
 }
 
 export default theme;
