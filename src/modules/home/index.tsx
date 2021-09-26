@@ -7,8 +7,11 @@ import database from "database/index";
 import Account from 'models/Account';
 import Networth from 'models/Networth';
 import dayjs from "dayjs";
+import EnhancedNetworthDashboard from "modules/home/components/Networth";
+import EnhancedGoalDashboard from "modules/home/components/Goal";
 
 const accountsCollection = database.get('accounts');
+const goalsCollection = database.get('goals');
 const networthsCollection = database.get('networths');
 
 export default function HomeScreen() {
@@ -44,27 +47,8 @@ export default function HomeScreen() {
             <ScrollView>
                 <View style={{ marginBottom: 80 }}>
                     <View style={{ flex: 1, flexDirection: 'row', marginHorizontal: 20, marginTop: 20 }}>
-                        <View style={{ flex: 1, backgroundColor: '#00ebc7',
-                            borderRadius: 10,
-                            borderColor: '#000',
-                            borderWidth: 2,
-                            marginRight: 6,
-                            padding: 8
-                        }}>
-                            <Text style={{ fontSize: 22, fontWeight: 'bold' }}>$ 100,000</Text>
-                            <Text>Current Net Worth</Text>
-                        </View>
-                        <View style={{
-                            flex: 1, backgroundColor: '#ff5470',
-                            borderRadius: 10,
-                            borderColor: '#000',
-                            borderWidth: 2,
-                            padding: 8,
-                            marginLeft: 8,
-                        }}>
-                            <Text style={{ fontSize: 22, fontWeight: 'bold' }}>85%</Text>
-                            <Text>Goals Completed</Text>
-                        </View>
+                        <EnhancedNetworthDashboard accounts={accountsCollection} />
+                        <EnhancedGoalDashboard goals={goalsCollection} />
                     </View>
                     <Card containerStyle={styles.cardContainer}>
                         <Text>Accounts</Text>
