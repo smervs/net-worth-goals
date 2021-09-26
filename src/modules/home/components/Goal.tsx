@@ -20,7 +20,7 @@ const GoalDashboard = ({ goals }) => {
             }, Promise.resolve(0));
 
             const c = (totalAccounts / totalGoals) * 100;
-            setCompleted(c);
+            setCompleted(c || 0);
         }
 
         calculateCompletion();
