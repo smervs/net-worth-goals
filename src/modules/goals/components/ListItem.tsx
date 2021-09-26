@@ -61,7 +61,7 @@ const ListItem = ({ goal, edit, deleteHandler, account }) => {
                 <RNEListItem.Subtitle>{numberWithCommas(goal.amount)}</RNEListItem.Subtitle>
             </RNEListItem.Content>
             <View style={{ alignItems: 'flex-end' }}>
-                <Text>{((goal.amount / account.total) * 100).toFixed(2)}%</Text>
+                <Text>{((account.total / goal.amount) * 100).toFixed(2)}%</Text>
                 <Text>{account && account.name}</Text>
             </View>
         </RNEListItem.Swipeable>

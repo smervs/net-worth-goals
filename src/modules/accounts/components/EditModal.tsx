@@ -24,7 +24,6 @@ export default function EditModal({ visible, setVisible, selectedAccount }) {
             });
         });
 
-        setForm({ name: '', total: '' });
         setVisible(false);
         syncNetworth();
     };
