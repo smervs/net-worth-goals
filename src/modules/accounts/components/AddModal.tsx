@@ -95,5 +95,6 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         fontSize: 18,
         textAlign: 'center',
+        fontFamily: 'Poppins-SemiBold'
     }
 });

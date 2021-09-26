@@ -6,25 +6,10 @@ import { numberWithCommas } from "helpers/index";
 
 const ListItem = ({ networth }) => {
     return (
-        <RNEListItem key={networth.id} bottomDivider
-            containerStyle={{
-                marginHorizontal: 15,
-                marginVertical: 6,
-                borderRadius: 10,
-                shadowOffset: {
-                    width: 0,
-                    height: 5,
-                },
-                shadowOpacity: 0.2,
-                shadowRadius: 10,
-                elevation: 6,
-                borderWidth: 2,
-                borderColor: '#000',
-                borderBottomWidth: 2
-            }}>
+        <RNEListItem key={networth.id} bottomDivider>
             <RNEListItem.Content>
                 <RNEListItem.Title>{dayjs(networth.date).format('MMM D, YYYY')}</RNEListItem.Title>
-                <RNEListItem.Subtitle>{numberWithCommas(networth.amount)}</RNEListItem.Subtitle>
+                <RNEListItem.Subtitle style={{ fontFamily: 'Poppins-Bold' }}>{numberWithCommas(networth.amount)}</RNEListItem.Subtitle>
             </RNEListItem.Content>
         </RNEListItem>
     );

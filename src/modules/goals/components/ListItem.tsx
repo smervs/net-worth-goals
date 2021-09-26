@@ -4,6 +4,11 @@ import { ListItem as RNEListItem, Text, Button, Icon } from "react-native-elemen
 import { numberWithCommas } from "helpers/index";
 import withObservables from '@nozbe/with-observables';
 
+const calculateCompletion = (accountTotal, goalTotal) => {
+    const completed = (accountTotal / goalTotal) * 100;
+    return completed > 100 ? 100 : completed;
+}
+
 const ListItem = ({ goal, edit, deleteHandler, account }) => {
     return (
         <RNEListItem.Swipeable
@@ -58,10 +63,10 @@ const ListItem = ({ goal, edit, deleteHandler, account }) => {
             bottomDivider>
             <RNEListItem.Content>
                 <RNEListItem.Title>{goal.name}</RNEListItem.Title>
-                <RNEListItem.Subtitle>{numberWithCommas(goal.amount)}</RNEListItem.Subtitle>
+                <RNEListItem.Subtitle style={{ fontFamily: 'Poppins-Bold' }}>{numberWithCommas(goal.amount)}</RNEListItem.Subtitle>
             </RNEListItem.Content>
             <View style={{ alignItems: 'flex-end' }}>
-                <Text>{((account.total / goal.amount) * 100).toFixed(2)}%</Text>
+                <Text style={{ fontFamily: 'Poppins-SemiBold' }}>{(calculateCompletion(account.total, goal.amount)).toFixed(2)}%</Text>
                 <Text>{account && account.name}</Text>
             </View>
         </RNEListItem.Swipeable>

@@ -115,7 +115,7 @@ export default function GoalScreen() {
                             onChangeText={value => setForm((prev) => ({ ...prev, amount: value }))}
                         />
                         <Text style={{ paddingHorizontal: 15, marginBottom: 4,
-                            fontSize: 16, fontWeight: 'bold', color: "#6B7280" }}>Account Linked</Text>
+                            fontSize: 16, fontFamily: 'Poppins-SemiBold', color: "#6B7280" }}>Account Linked</Text>
                         <View style={{
                             borderColor: '#000',
                             borderWidth: 2,
@@ -162,7 +162,7 @@ export default function GoalScreen() {
                             onChangeText={value => setEditForm((prev) => ({ ...prev, amount: value }))}
                         />
                         <Text style={{ paddingHorizontal: 15, marginBottom: 4,
-                            fontSize: 16, fontWeight: 'bold', color: "#6B7280" }}>Account Linked</Text>
+                            fontSize: 16, fontFamily: 'Poppins-SemiBold', color: "#6B7280" }}>Account Linked</Text>
                         <View style={{
                             borderColor: '#000',
                             borderWidth: 2,
@@ -227,5 +227,6 @@ const styles = StyleSheet.create({
         marginBottom: 15,
         fontSize: 18,
         textAlign: 'center',
+        fontFamily: 'Poppins-SemiBold'
     }
 });

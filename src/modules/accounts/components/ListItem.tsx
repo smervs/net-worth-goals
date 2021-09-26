@@ -3,24 +3,10 @@ import { View } from "react-native";
 import { ListItem as RNEListItem, Button, Icon, Text } from "react-native-elements";
 import withObservables from '@nozbe/with-observables';
 import { numberWithCommas } from "helpers/index";
+import { CircleColor } from "modules/common/components/index";
 
 const ListItem = ({ account, onEdit, onDelete, percentage }) => (
     <RNEListItem.Swipeable
-        containerStyle={{
-            marginHorizontal: 15,
-            marginVertical: 6,
-            borderRadius: 10,
-            shadowOffset: {
-                width: 0,
-                height: 5,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 10,
-            elevation: 6,
-            borderWidth: 2,
-            borderColor: '#000',
-            borderBottomWidth: 2
-        }}
         leftContent={
             <View style={{
                 marginLeft: 15, marginRight: -6, marginVertical: 6, borderRadius: 10,
@@ -55,10 +41,10 @@ const ListItem = ({ account, onEdit, onDelete, percentage }) => (
             </View>
         }
         key={account.id} bottomDivider>
-        <View style={{ height: 40, width: 40, backgroundColor: account.color, borderRadius: 20 }}></View>
+        <CircleColor color={account.color} />
         <RNEListItem.Content>
-            <RNEListItem.Title>{account.name}</RNEListItem.Title>
-            <RNEListItem.Subtitle>{numberWithCommas(account.total)}</RNEListItem.Subtitle>
+            <RNEListItem.Title style={{ fontFamily: 'Poppins-Regular' }}>{account.name}</RNEListItem.Title>
+            <RNEListItem.Subtitle style={{ fontFamily: 'Poppins-Bold' }}>{numberWithCommas(account.total)}</RNEListItem.Subtitle>
         </RNEListItem.Content>
         <Text>{Number.parseFloat(percentage).toFixed(2)}%</Text>
     </RNEListItem.Swipeable>

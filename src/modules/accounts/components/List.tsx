@@ -59,9 +59,9 @@ const List = ({ accounts, onEdit }) => {
                 }}>
                     <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
                         <Icon name="package" type="feather" style={{ }} size={40}/>
-                        <View style={{ marginLeft: 10 }}>
-                            <Text style={{ fontSize: 15 }}>Total</Text>
-                            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>{numberWithCommas(sum)}</Text>
+                        <View style={{ marginLeft: 15 }}>
+                            <Text style={{ fontSize: 15, fontFamily: 'Poppins-Regular' }}>Total</Text>
+                            <Text style={{ fontSize: 20, fontFamily: 'Poppins-Bold' }}>$ {numberWithCommas(sum)}</Text>
                         </View>
                     </View>
                 </Card>

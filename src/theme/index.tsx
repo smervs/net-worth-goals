@@ -17,11 +17,40 @@ const theme = {
         },
         labelStyle: {
             marginBottom: 4,
-            color: '#6B7280'
+            color: '#6B7280',
+            fontWeight: 'regular',
+            fontFamily: 'Poppins-SemiBold'
         },
         placeholderTextColor: '#fff',
         errorStyle: {
             margin: 0
+        }
+    },
+    ListItem: {
+        containerStyle: {
+            marginHorizontal: 15,
+            marginVertical: 6,
+            borderRadius: 10,
+            shadowOffset: {
+                width: 0,
+                height: 5,
+            },
+            shadowOpacity: 0.2,
+            shadowRadius: 10,
+            elevation: 6,
+            borderWidth: 2,
+            borderColor: '#000',
+            borderBottomWidth: 2
+        }
+    },
+    Button: {
+        titleStyle: {
+            fontFamily: 'Poppins-Regular'
+        }
+    },
+    Text: {
+        style: {
+            fontFamily: 'Poppins-Regular'
         }
     }
 }

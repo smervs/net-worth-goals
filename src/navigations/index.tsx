@@ -33,12 +33,15 @@ export default function Navigation() {
                     headerStyle: {
                         borderBottomWidth: 2,
                         borderBottomColor: '#000'
+                    },
+                    headerTitleStyle: {
+                        fontFamily: 'Poppins-Bold',
                     }
                 })}>
-                <Tab.Screen name="🏠 Home" component={HomeScreen} options={options('Home', 'home')}/>
-                <Tab.Screen name="📚 Accounts" component={AccountScreen} options={options('Accounts', 'clipboard')}/>
-                <Tab.Screen name="🏆 Goals" component={GoalScreen} options={options('Goals', 'gift')}/>
-                <Tab.Screen name="📊 Net Worth" component={NetworthScreen} options={options('Net Worth', 'trending-up')}/>
+                <Tab.Screen name="🏠  Home" component={HomeScreen} options={options('Home', 'home')}/>
+                <Tab.Screen name="📚  Accounts" component={AccountScreen} options={options('Accounts', 'clipboard')}/>
+                <Tab.Screen name="🏆  Goals" component={GoalScreen} options={options('Goals', 'gift')}/>
+                <Tab.Screen name="📊  Net Worth" component={NetworthScreen} options={options('Net Worth', 'trending-up')}/>
                 {/* <Tab.Screen name="History" component={HistoryScreen} options={options('History', 'clock')}/> */}
             </Tab.Navigator>
         </NavigationContainer>
