@@ -51,7 +51,7 @@ export default function HomeScreen() {
                     </View>
                     <Card containerStyle={styles.cardContainer}>
                         <Text>Accounts</Text>
-                        <View style={{ alignItems: 'center', padding: 10 }}>
+                        <View style={{ alignItems: 'center', padding: 2 }}>
                             <VictoryPie
                                 data={series}
                                 width={250}
