@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View } from "react-native";
 import { Text } from "react-native-elements";
 import { hexToRGB, numberWithCommas } from "helpers/index";
-import withObservables from '@nozbe/with-observables';
+import { GoalContext } from "context/GoalContext";
 
 const bgColor = hexToRGB(0x00ebc7);
 
-const NetworthDashboard = ({ accounts }) => {
-    const sum = accounts.reduce((prev, account) => prev + account.total, 0);
+const NetworthDashboard = () => {
+    const { totalNetworth } = useContext(GoalContext);
 
     return (
         <View style={{
@@ -19,15 +19,10 @@ const NetworthDashboard = ({ accounts }) => {
             marginRight: 6,
             padding: 8
         }}>
-            <Text style={{ fontSize: 21, fontFamily: "Poppins-Bold" }}>$ {numberWithCommas(sum)}</Text>
+            <Text style={{ fontSize: 21, fontFamily: "Poppins-Bold" }}>$ {numberWithCommas(totalNetworth)}</Text>
             <Text style={{ fontFamily: 'Poppins-Regular' }}>Current Net Worth</Text>
         </View>
     );
 }
 
-const enhance = withObservables(['accounts'], (props) => ({
-    accounts: props.accounts.query()
-}));
-
-const EnhancedNetworthDashboard = enhance(NetworthDashboard);
-export default EnhancedNetworthDashboard;
+export default NetworthDashboard;

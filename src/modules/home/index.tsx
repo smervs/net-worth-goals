@@ -11,7 +11,6 @@ import EnhancedNetworthDashboard from "modules/home/components/Networth";
 import EnhancedGoalDashboard from "modules/home/components/Goal";
 
 const accountsCollection = database.get('accounts');
-const goalsCollection = database.get('goals');
 const networthsCollection = database.get('networths');
 
 export default function HomeScreen() {
@@ -47,8 +46,8 @@ export default function HomeScreen() {
             <ScrollView>
                 <View style={{ marginBottom: 80 }}>
                     <View style={{ flex: 1, flexDirection: 'row', marginHorizontal: 20, marginTop: 20 }}>
-                        <EnhancedNetworthDashboard accounts={accountsCollection} />
-                        <EnhancedGoalDashboard goals={goalsCollection} />
+                        <EnhancedNetworthDashboard />
+                        <EnhancedGoalDashboard />
                     </View>
                     <Card containerStyle={styles.cardContainer}>
                         <Text>Accounts</Text>

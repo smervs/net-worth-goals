@@ -6,7 +6,9 @@ import { ThemeProvider } from "react-native-elements";
 import { GoalContext } from "context/GoalContext";
 import database from "database/index";
 import Goal from 'models/Goal';
+import Account from 'models/Account';
 
+const accountsCollection = database.get('accounts');
 const goalsCollection = database.get('goals');
 
 const App = () => {
@@ -14,6 +16,11 @@ const App = () => {
     const [totalNetworth, setTotalNetworth] = useState(0);
 
     const updateTotalCompletion = async () => {
+        // get total accounts networth
+        const accounts = await accountsCollection.query().fetch();
+        const networth = accounts.reduce((prev, account: Account) => prev + account.total, 0);
+        setTotalNetworth(networth);
+        // get total goal completion
         const goals = await goalsCollection.query().fetch();
         const totalGoals = goals.reduce((prev, goal: Goal) => prev + goal.amount, 0);
         const totalAccounts = await goals.reduce(async (prev, goal: Goal) => {

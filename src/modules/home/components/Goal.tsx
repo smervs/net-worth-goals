@@ -1,33 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import { View } from "react-native";
 import { Text } from "react-native-elements";
 import { hexToRGB } from "helpers/index";
-import withObservables from '@nozbe/with-observables';
 import { GoalContext } from "context/GoalContext";
 
 const bgColor = hexToRGB(0xff5470);
 
-const GoalDashboard = ({ goals }) => {
+const GoalDashboard = () => {
     const { totalCompletion } = useContext(GoalContext);
-    const [completed, setCompleted] = useState(0);
-
-    // useEffect(() => {
-    //     const calculateCompletion = async () => {
-    //         const totalGoals = goals.reduce((prev, goal) => prev + goal.amount, 0);
-    //         const totalAccounts = await goals.reduce(async (prev, goal) => {
-    //             const account = await goal.account;
-    //             const prevVal = await prev;
-
-    //             return prevVal + (account.total > goal.amount ? goal.amount : account.total);
-    //         }, Promise.resolve(0));
-
-    //         const c = (totalAccounts / totalGoals) * 100;
-    //         setCompleted(c || 0);
-    //     }
-
-    //     calculateCompletion();
-    // }, [goals]);
-
 
     return (
         <View style={{
@@ -45,9 +25,4 @@ const GoalDashboard = ({ goals }) => {
     );
 }
 
-const enhance = withObservables(['goals'], (props) => ({
-    goals: props.goals.query()
-}));
-
-const EnhancedGoalDashboard = enhance(GoalDashboard);
-export default EnhancedGoalDashboard;
+export default GoalDashboard;
