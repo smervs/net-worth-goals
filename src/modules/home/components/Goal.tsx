@@ -1,30 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { View } from "react-native";
 import { Text } from "react-native-elements";
 import { hexToRGB } from "helpers/index";
 import withObservables from '@nozbe/with-observables';
+import { GoalContext } from "context/GoalContext";
 
 const bgColor = hexToRGB(0xff5470);
 
 const GoalDashboard = ({ goals }) => {
+    const { totalCompletion } = useContext(GoalContext);
     const [completed, setCompleted] = useState(0);
 
-    useEffect(() => {
-        const calculateCompletion = async () => {
-            const totalGoals = goals.reduce((prev, goal) => prev + goal.amount, 0);
-            const totalAccounts = await goals.reduce(async (prev, goal) => {
-                const account = await goal.account;
-                const prevVal = await prev;
+    // useEffect(() => {
+    //     const calculateCompletion = async () => {
+    //         const totalGoals = goals.reduce((prev, goal) => prev + goal.amount, 0);
+    //         const totalAccounts = await goals.reduce(async (prev, goal) => {
+    //             const account = await goal.account;
+    //             const prevVal = await prev;
 
-                return prevVal + (account.total > goal.amount ? goal.amount : account.total);
-            }, Promise.resolve(0));
+    //             return prevVal + (account.total > goal.amount ? goal.amount : account.total);
+    //         }, Promise.resolve(0));
 
-            const c = (totalAccounts / totalGoals) * 100;
-            setCompleted(c || 0);
-        }
+    //         const c = (totalAccounts / totalGoals) * 100;
+    //         setCompleted(c || 0);
+    //     }
 
-        calculateCompletion();
-    }, [goals]);
+    //     calculateCompletion();
+    // }, [goals]);
 
 
     return (
@@ -37,7 +39,7 @@ const GoalDashboard = ({ goals }) => {
             padding: 8,
             marginLeft: 8,
         }}>
-            <Text style={{ fontSize: 21, fontFamily: "Poppins-Bold" }}>{completed.toFixed(2)}%</Text>
+            <Text style={{ fontSize: 21, fontFamily: "Poppins-Bold" }}>{totalCompletion.toFixed(2)}%</Text>
             <Text style={{ fontFamily: 'Poppins-Regular' }}>Goals Completed</Text>
         </View>
     );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Alert, View } from "react-native";
 import { Icon, Text, Card } from "react-native-elements";
 import database from "database/index";
@@ -6,14 +6,19 @@ import EnhancedListItem from "modules/accounts/components/ListItem";
 import withObservables from '@nozbe/with-observables';
 import { sync as syncNetworth } from "services/networth";
 import { numberWithCommas } from "helpers/index";
+import { GoalContext } from "context/GoalContext";
 
 const List = ({ accounts, onEdit }) => {
+    const { updateTotalCompletion } = useContext(GoalContext);
+
     const sum = accounts.reduce((prev, acc) => prev + acc.total, 0);
     const deleteAccount = async (account) => {
         await database.write(async () => {
             account.destroyPermanently();
-            syncNetworth();
         });
+
+        syncNetworth();
+        updateTotalCompletion();
     };
 
     const deleteHandler = (account) => {

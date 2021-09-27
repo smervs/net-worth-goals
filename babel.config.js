@@ -14,6 +14,7 @@ module.exports = {
                     services: "./src/services",
                     helpers: "./src/helpers",
                     theme: "./src/theme",
+                    context: "./src/context",
                 },
                 extensions: [".js", ".jsx", ".tsx", ".ios.js", ".android.js"],
             },

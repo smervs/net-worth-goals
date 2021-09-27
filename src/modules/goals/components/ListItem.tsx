@@ -66,7 +66,7 @@ const ListItem = ({ goal, edit, deleteHandler, account }) => {
                 <RNEListItem.Subtitle style={{ fontFamily: 'Poppins-Bold' }}>{numberWithCommas(goal.amount)}</RNEListItem.Subtitle>
             </RNEListItem.Content>
             <View style={{ alignItems: 'flex-end' }}>
-                <Text style={{ fontFamily: 'Poppins-SemiBold' }}>{(calculateCompletion(account.total, goal.amount)).toFixed(2)}%</Text>
+                <Text style={{ fontFamily: 'Poppins-SemiBold' }}>{(calculateCompletion(account?.total, goal.amount)).toFixed(2)}%</Text>
                 <Text>{account && account.name}</Text>
             </View>
         </RNEListItem.Swipeable>

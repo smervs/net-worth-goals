@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Modal, ScrollView, StyleSheet } from 'react-native';
 import { Screen } from "modules/common/components";
 import { FAB, Icon, Input, Button } from "react-native-elements";
@@ -7,11 +7,14 @@ import Goal from 'models/Goal';
 import { Picker } from '@react-native-picker/picker';
 import EnhancedList from "modules/goals/components/List";
 import { SubmitButton, CancelButton } from "modules/common/components/index";
+import { GoalContext } from "context/GoalContext";
+import Account from 'models/Account';
 
 const goalsCollection = database.get('goals');
 const accountsCollection = database.get('accounts');
 
 export default function GoalScreen() {
+    const { updateTotalCompletion } = useContext(GoalContext);
     const [selectedAccount, setSelectedAccount] = useState();
     const [accounts, setAccounts] = useState([]);
     const [goals, setGoals] = useState([]);
@@ -29,6 +32,7 @@ export default function GoalScreen() {
 
     const submitForm = async () => {
         await database.write(async () => {
+            console.log(selectedAccount)
             const data = await goalsCollection.create((goal: Goal) => {
                 goal.name = form.name;
                 goal.amount = Number.parseFloat(form.amount);
@@ -39,6 +43,7 @@ export default function GoalScreen() {
         setForm({ name: '', amount: '' });
         setModalVisible(false);
         getGoals();
+        updateTotalCompletion();
     };
 
     const updateForm = async () => {
@@ -53,6 +58,7 @@ export default function GoalScreen() {
         setEditForm({ name: '', amount: '' });
         setEditModalVisible(false);
         getGoals();
+        updateTotalCompletion();
     };
 
     const editGoal = async (goal) => {
@@ -63,6 +69,7 @@ export default function GoalScreen() {
         });
         if (account)
             setSelectedAccount(account.id);
+
         setUpdateGoal(goal);
         setEditModalVisible(true);
     }
@@ -78,8 +85,9 @@ export default function GoalScreen() {
     }
 
     const getAccounts = async () => {
-        const list = await accountsCollection.query().fetch();
+        const list: any = await accountsCollection.query().fetch();
         setAccounts(list);
+        setSelectedAccount(list[0].id);
     }
 
     useEffect(() => {

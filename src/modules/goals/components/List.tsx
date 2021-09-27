@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Alert, View } from "react-native";
 import database from "database/index";
 import withObservables from '@nozbe/with-observables';
 import ListItem from "modules/goals/components/ListItem";
+import { GoalContext } from "context/GoalContext";
 
 const List = ({ goals, refresh, edit }) => {
+    const { updateTotalCompletion } = useContext(GoalContext);
     const deleteGoal = async (goal) => {
         await database.write(async () => {
             goal.destroyPermanently();
-            refresh();
         });
+
+        updateTotalCompletion();
+        refresh();
     };
 
     const deleteHandler = (goal) => {
