@@ -3,6 +3,12 @@ import Goal from "models/Goal";
 
 const goalsCollection = database.get('goals');
 
+type GoalData = {
+    name: string,
+    amount: number,
+    accountId: string
+}
+
 export const getTotalCompletion = async () => {
     const goals = await goalsCollection.query().fetch();
     const totalGoals = goals.reduce((prev, goal: Goal) => prev + goal.amount, 0);
@@ -14,4 +20,14 @@ export const getTotalCompletion = async () => {
     }, Promise.resolve(0));
 
     return (totalAccounts / totalGoals) * 100;
+}
+
+export const add = async ({ name, amount, accountId }: GoalData) => {
+    await database.write(async () => {
+        await goalsCollection.create((goal: Goal) => {
+            goal.name = name;
+            goal.amount = amount;
+            goal.account.id = accountId;
+        });
+    });
 }

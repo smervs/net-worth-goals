@@ -8,6 +8,7 @@ import { Picker } from '@react-native-picker/picker';
 import EnhancedList from "modules/goals/components/List";
 import { SubmitButton, CancelButton } from "modules/common/components/index";
 import { GoalContext } from "context/GoalContext";
+import EnhancedAddModal from "modules/goals/components/AddModal";
 
 const goalsCollection = database.get('goals');
 const accountsCollection = database.get('accounts');
@@ -28,22 +29,6 @@ export default function GoalScreen() {
         name: '',
         amount: '',
     });
-
-    const submitForm = async () => {
-        await database.write(async () => {
-            console.log(selectedAccount)
-            const data = await goalsCollection.create((goal: Goal) => {
-                goal.name = form.name;
-                goal.amount = Number.parseFloat(form.amount);
-                goal.account.id = selectedAccount;
-            });
-        });
-
-        setForm({ name: '', amount: '' });
-        setModalVisible(false);
-        getGoals();
-        updateDashboard();
-    };
 
     const updateForm = async () => {
         await database.write(async () => {
@@ -90,59 +75,12 @@ export default function GoalScreen() {
     }
 
     useEffect(() => {
-        // getGoals();
         getAccounts();
     }, []);
 
     return (
         <Screen>
-            <Modal
-                presentationStyle="overFullScreen"
-                animationType="fade"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(!modalVisible);
-                }}
-            >
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <Text style={styles.modalTitle}>New Account</Text>
-                        <Input
-                            label="Name"
-                            placeholder="Name"
-                            value={form.name}
-                            onChangeText={value => setForm((prev) => ({ ...prev, name: value }))}
-                        />
-                        <Input
-                            keyboardType='numeric'
-                            label="Current Balance"
-                            placeholder="Current Balance"
-                            value={form.amount.toString()}
-                            onChangeText={value => setForm((prev) => ({ ...prev, amount: value }))}
-                        />
-                        <Text style={{ paddingHorizontal: 15, marginBottom: 4,
-                            fontSize: 16, fontFamily: 'Poppins-SemiBold', color: "#6B7280" }}>Account Linked</Text>
-                        <View style={{
-                            borderColor: '#000',
-                            borderWidth: 2,
-                            borderRadius: 10
-                        }}>
-                        <Picker
-                            selectedValue={selectedAccount}
-                            onValueChange={(itemValue, itemIndex) =>
-                                setSelectedAccount(itemValue)
-                            }>
-                            {accounts.map(account => (
-                                <Picker.Item key={account.id} label={account.name} value={account.id} />
-                            ))}
-                        </Picker>
-                        </View>
-                        <SubmitButton title="Save" onPress={submitForm} />
-                        <CancelButton title="Cancel" onPress={() => setModalVisible(false)} />
-                    </View>
-                </View>
-            </Modal>
+            <EnhancedAddModal accounts={accountsCollection} visible={modalVisible} setVisible={setModalVisible} />
             <Modal
                 presentationStyle="overFullScreen"
                 animationType="fade"

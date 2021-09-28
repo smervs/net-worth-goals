@@ -18,7 +18,6 @@ const theme = {
         labelStyle: {
             marginBottom: 4,
             color: '#6B7280',
-            fontWeight: 'regular',
             fontFamily: 'Poppins-SemiBold'
         },
         placeholderTextColor: '#fff',
