@@ -8,13 +8,12 @@ import { Picker } from '@react-native-picker/picker';
 import EnhancedList from "modules/goals/components/List";
 import { SubmitButton, CancelButton } from "modules/common/components/index";
 import { GoalContext } from "context/GoalContext";
-import Account from 'models/Account';
 
 const goalsCollection = database.get('goals');
 const accountsCollection = database.get('accounts');
 
 export default function GoalScreen() {
-    const { updateTotalCompletion } = useContext(GoalContext);
+    const { updateDashboard } = useContext(GoalContext);
     const [selectedAccount, setSelectedAccount] = useState();
     const [accounts, setAccounts] = useState([]);
     const [goals, setGoals] = useState([]);
@@ -43,7 +42,7 @@ export default function GoalScreen() {
         setForm({ name: '', amount: '' });
         setModalVisible(false);
         getGoals();
-        updateTotalCompletion();
+        updateDashboard();
     };
 
     const updateForm = async () => {
@@ -58,7 +57,7 @@ export default function GoalScreen() {
         setEditForm({ name: '', amount: '' });
         setEditModalVisible(false);
         getGoals();
-        updateTotalCompletion();
+        updateDashboard();
     };
 
     const editGoal = async (goal) => {

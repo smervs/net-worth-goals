@@ -9,7 +9,7 @@ import { numberWithCommas } from "helpers/index";
 import { GoalContext } from "context/GoalContext";
 
 const List = ({ accounts, onEdit }) => {
-    const { updateTotalCompletion } = useContext(GoalContext);
+    const { updateDashboard } = useContext(GoalContext);
 
     const sum = accounts.reduce((prev, acc) => prev + acc.total, 0);
     const deleteAccount = async (account) => {
@@ -18,7 +18,7 @@ const List = ({ accounts, onEdit }) => {
         });
 
         syncNetworth();
-        updateTotalCompletion();
+        updateDashboard();
     };
 
     const deleteHandler = (account) => {

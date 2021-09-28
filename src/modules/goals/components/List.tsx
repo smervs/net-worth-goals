@@ -6,13 +6,13 @@ import ListItem from "modules/goals/components/ListItem";
 import { GoalContext } from "context/GoalContext";
 
 const List = ({ goals, refresh, edit }) => {
-    const { updateTotalCompletion } = useContext(GoalContext);
+    const { updateDashboard } = useContext(GoalContext);
     const deleteGoal = async (goal) => {
         await database.write(async () => {
             goal.destroyPermanently();
         });
 
-        updateTotalCompletion();
+        updateDashboard();
         refresh();
     };
 

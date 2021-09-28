@@ -2,36 +2,31 @@ import React, { useState, useContext } from "react";
 import { View, Modal, StyleSheet } from "react-native";
 import { Text, Input } from "react-native-elements";
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
-import database from "database/index";
-import Account from "models/Account";
 import { sync as syncNetworth } from "services/networth";
 import { ColorPicker, SubmitButton, CancelButton } from "modules/common/components/index";
 import { GoalContext } from "context/GoalContext";
+import { add as addAccount } from "services/account";
 
 const GestureHandlerWrapper = gestureHandlerRootHOC(
     ({ children }) => <View style={styles.centeredView}>{children}</View>,
 );
 
-const accountsCollection = database.get('accounts');
-
 export default function AddModal({ visible, setVisible }) {
-    const { updateTotalCompletion } = useContext(GoalContext);
+    const { updateDashboard } = useContext(GoalContext);
     const [form, setForm] = useState({ name: '', total: '' });
     const [color, setColor] = useState('#FF7700');
 
     const submitForm = async () => {
-        await database.write(async () => {
-            await accountsCollection.create((account: Account) => {
-                account.name = form.name,
-                account.total = Number.parseFloat(form.total),
-                account.color = color
-            });
+        await addAccount({
+            name: form.name,
+            total: Number.parseFloat(form.total),
+            color: color
         });
 
         setForm({ name: '', total: '' });
         setVisible(false);
         syncNetworth();
-        updateTotalCompletion();
+        updateDashboard();
     };
 
     return (

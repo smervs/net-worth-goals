@@ -13,7 +13,7 @@ const GestureHandlerWrapper = gestureHandlerRootHOC(
 );
 
 export default function EditModal({ visible, setVisible, selectedAccount }) {
-    const { updateTotalCompletion } = useContext(GoalContext);
+    const { updateDashboard } = useContext(GoalContext);
     const [form, setForm] = useState({ name: '', total: '' });
     const [color, setColor] = useState(selectedAccount ? selectedAccount.color : '#FF7700');
 
@@ -28,7 +28,7 @@ export default function EditModal({ visible, setVisible, selectedAccount }) {
 
         setVisible(false);
         syncNetworth();
-        updateTotalCompletion();
+        updateDashboard();
     };
 
     useEffect(() => {
