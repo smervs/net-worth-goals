@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, Modal, ScrollView, StyleSheet } from 'react-native';
 import { Screen } from "modules/common/components";
-import { FAB, Icon, Input, Button } from "react-native-elements";
+import { FAB, Icon, Input } from "react-native-elements";
 import database from "database/index";
 import Goal from 'models/Goal';
 import { Picker } from '@react-native-picker/picker';
@@ -17,13 +17,8 @@ export default function GoalScreen() {
     const { updateDashboard } = useContext(GoalContext);
     const [selectedAccount, setSelectedAccount] = useState();
     const [accounts, setAccounts] = useState([]);
-    const [goals, setGoals] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [editModalVisible, setEditModalVisible] = useState(false);
-    const [form, setForm] = useState({
-        name: '',
-        amount: '',
-    });
     const [updateGoal, setUpdateGoal] = useState(null);
     const [editForm, setEditForm] = useState({
         name: '',
@@ -41,7 +36,6 @@ export default function GoalScreen() {
 
         setEditForm({ name: '', amount: '' });
         setEditModalVisible(false);
-        getGoals();
         updateDashboard();
     };
 
@@ -56,16 +50,6 @@ export default function GoalScreen() {
 
         setUpdateGoal(goal);
         setEditModalVisible(true);
-    }
-
-    const refreshList = () => {
-        getGoals();
-    }
-
-    const getGoals = async () => {
-        const list = await goalsCollection.query().fetch();
-
-        setGoals(list);
     }
 
     const getAccounts = async () => {
@@ -129,7 +113,7 @@ export default function GoalScreen() {
                 </View>
             </Modal>
             <ScrollView>
-                <EnhancedList goals={goalsCollection} refresh={refreshList} edit={editGoal} />
+                <EnhancedList goals={goalsCollection} edit={editGoal} />
             </ScrollView>
             <FAB
                 containerStyle={{ marginBottom: 60 }}
