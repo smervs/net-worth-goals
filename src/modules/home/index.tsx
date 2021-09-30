@@ -9,6 +9,7 @@ import Networth from 'models/Networth';
 import dayjs from "dayjs";
 import EnhancedNetworthDashboard from "modules/home/components/Networth";
 import EnhancedGoalDashboard from "modules/home/components/Goal";
+import EnhancedAccountsGraph from "modules/home/components/AccountsGraph";
 
 const accountsCollection = database.get('accounts');
 const networthsCollection = database.get('networths');
@@ -51,29 +52,7 @@ export default function HomeScreen() {
                     </View>
                     <Card containerStyle={styles.cardContainer}>
                         <Text>Accounts</Text>
-                        <View style={{ alignItems: 'center', padding: 2 }}>
-                            <VictoryPie
-                                data={series}
-                                width={250}
-                                height={250}
-                                innerRadius={40}
-                                colorScale={colors}
-                                style={{
-                                    labels: {
-                                        fill: '#000', fontSize: 12, padding: 10
-                                    },
-                                }}
-                                labelComponent={
-                                    <VictoryLabel
-                                        text={({ datum }) => datum.label.split(' ')}
-                                        style={[
-                                            { fill: "red", fontWeight: 'bold' },
-                                            { fill: "green" }
-                                        ]}
-                                    />
-                                }
-                            />
-                        </View>
+                        <EnhancedAccountsGraph accounts={accountsCollection} />
                     </Card>
                     <Card containerStyle={styles.cardContainer}>
                         <Text>Net Worth</Text>
