@@ -1,47 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Text, View, ScrollView, StyleSheet } from 'react-native';
 import { Screen } from "modules/common/components";
 import { Card } from "react-native-elements";
-import { VictoryPie, VictoryLabel, VictoryChart, VictoryLine } from "victory-native";
 import database from "database/index";
-import Account from 'models/Account';
-import Networth from 'models/Networth';
-import dayjs from "dayjs";
 import EnhancedNetworthDashboard from "modules/home/components/Networth";
 import EnhancedGoalDashboard from "modules/home/components/Goal";
 import EnhancedAccountsGraph from "modules/home/components/AccountsGraph";
+import EnhancedNetworthGraph from "modules/home/components/NetworthGraph";
 
 const accountsCollection = database.get('accounts');
 const networthsCollection = database.get('networths');
 
 export default function HomeScreen() {
-    const [series, setSeries] = useState([]);
-    const [networths, setNetworths] = useState([]);
-    const [colors, setColors] = useState([]);
-
-    const getAccounts = async () => {
-        const accounts = await accountsCollection.query().fetch();
-        const total = accounts.reduce((prev, account: Account) => prev + account.total, 0);
-        const data = accounts.map((account: Account) => ({
-            y: account.total, x: `${(account.total / total) * 100}%`, label: `${account.name} ${((account.total / total) * 100).toFixed(2)}%`
-        }));
-        const colorData = accounts.map((account: Account) => account.color);
-
-        setSeries(data);
-        setColors(colorData);
-    }
-
-    const getNetworths = async () => {
-        const networths = await networthsCollection.query().fetch();
-        const data = networths.map((net: Networth) => ({ x: dayjs(net.date).format('YYYY-MM-DD'), y: net.amount }));
-        setNetworths(data);
-    }
-
-    useEffect(() => {
-        getAccounts();
-        getNetworths();
-    }, []);
-
     return (
         <Screen>
             <ScrollView>
@@ -56,14 +26,7 @@ export default function HomeScreen() {
                     </Card>
                     <Card containerStyle={styles.cardContainer}>
                         <Text>Net Worth</Text>
-                        <View style={{ alignItems: 'center', padding: 20 }}>
-                            <VictoryChart>
-                                <VictoryLine
-                                    interpolation="natural"
-                                    data={networths}
-                                />
-                            </VictoryChart>
-                        </View>
+                        <EnhancedNetworthGraph networths={networthsCollection} />
                     </Card>
                 </View>
             </ScrollView>
