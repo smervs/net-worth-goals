@@ -38,3 +38,12 @@ export const sync = async () => {
         await addNetworth(totalNetworth);
     }
 }
+
+export const getNetworthGraph = async () => {
+    const networths = await networthsCollection.query().fetch();
+    const data = networths.map((net: Networth) => (
+        { x: dayjs(net.date).format('YYYY-MM-DD'), y: net.amount }
+    ));
+
+    return data
+}

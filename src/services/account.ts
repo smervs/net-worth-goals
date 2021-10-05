@@ -29,3 +29,15 @@ export const add = async ({ name, total, color }: AccountData) => {
         });
     });
 }
+
+export const getAccountsGraph = async () => {
+    const accounts = await accountsCollection.query().fetch();
+    const total = accounts.reduce((prev, account: Account) => prev + account.total, 0);
+    const data = accounts.map((account: Account) => ({
+        y: account.total, x: `${(account.total / total) * 100}%`, label: `${account.name} ${((account.total / total) * 100).toFixed(2)}%`
+    }));
+    const colorData = accounts.map((account: Account) => account.color);
+
+    // [series, colors]
+    return [data, colorData];
+}
