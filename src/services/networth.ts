@@ -64,7 +64,7 @@ export const getNetworthGraph = async () => {
     });
 
     const data = networthList.map((net: Networth) => (
-        { x: dayjs(net.date).format('YYYY-MM-DD'), y: net.amount }
+        { x: dayjs(net.date).format('MMM YYYY'), y: net.amount }
     ));
 
     return data;
