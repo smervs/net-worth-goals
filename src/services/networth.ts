@@ -40,10 +40,32 @@ export const sync = async () => {
 }
 
 export const getNetworthGraph = async () => {
-    const networths = await networthsCollection.query().fetch();
-    const data = networths.map((net: Networth) => (
+    const now = dayjs();
+    const networths = await networthsCollection.query(
+        Q.unsafeSqlQuery(
+            `select * from networths
+            where date <= '${now.format('YYYYMMDD')}'
+            and date >= '${now.subtract(1, 'year').format('YYYYMMDD')}'
+            order by date asc`
+        )
+    ).fetch();
+
+    let networthList = [];
+    networths.forEach((networth: Networth) => {
+        const index = dayjs(networth.date).format('YYYYMM');
+        const selected = networthList[index];
+        if (selected) {
+            if (selected.date < networth.date) {
+                networthList[index] = networth;
+            }
+        } else {
+            networthList[index] = networth;
+        }
+    });
+
+    const data = networthList.map((net: Networth) => (
         { x: dayjs(net.date).format('YYYY-MM-DD'), y: net.amount }
     ));
 
-    return data
+    return data;
 }
