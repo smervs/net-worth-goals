@@ -50,22 +50,23 @@ export const getNetworthGraph = async () => {
         )
     ).fetch();
 
-    let networthList = [];
-    networths.forEach((networth: Networth) => {
+    let networthMap = new Map();
+    Array.from(networths).forEach((networth: Networth) => {
         const index = dayjs(networth.date).format('YYYYMM');
-        const selected = networthList[index];
-        if (selected) {
+        if (networthMap.has(index)) {
+            const selected = networthMap.get(index);
             if (selected.date < networth.date) {
-                networthList[index] = networth;
+                networthMap.set(index, networth);
             }
         } else {
-            networthList[index] = networth;
+            networthMap.set(index, networth);
         }
     });
 
-    const data = networthList.map((net: Networth) => (
-        { x: dayjs(net.date).format('MMM YYYY'), y: net.amount }
-    ));
+    const list = Array.from(networthMap.values()).map((networth: Networth) => ({
+        x: dayjs(networth.date).format('MMM YYYY'),
+        y: networth.amount
+    }));
 
-    return data;
+    return list;
 }
