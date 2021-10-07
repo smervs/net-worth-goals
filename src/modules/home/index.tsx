@@ -17,11 +17,11 @@ export default function HomeScreen() {
                         <EnhancedGoalDashboard />
                     </View>
                     <Card containerStyle={styles.cardContainer}>
-                        <Text>Accounts</Text>
+                        <Text style={styles.title}>ACCOUNTS</Text>
                         <EnhancedAccountsGraph />
                     </Card>
                     <Card containerStyle={styles.cardContainer}>
-                        <Text>Net Worth</Text>
+                        <Text style={styles.title}>NET WORTH</Text>
                         <EnhancedNetworthGraph />
                     </Card>
                 </View>
@@ -51,5 +51,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginHorizontal: 20,
         marginTop: 20
+    },
+    title: {
+        backgroundColor: '#D1D5DB',
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        fontWeight: 'bold',
+        borderRadius: 20,
+        textAlign: 'center'
     }
 });

@@ -23,8 +23,8 @@ const AccountsGraph = () => {
                     <VictoryLabel
                         text={({ datum }) => datum.label.split(' ')}
                         style={[
-                            { fill: "red", fontWeight: 'bold' },
-                            { fill: "green" }
+                            { fill: "#000", fontWeight: 'bold' },
+                            { fill: "#6B7280" }
                         ]}
                     />
                 }
