@@ -4,6 +4,8 @@ import withObservables from '@nozbe/with-observables';
 import { Q } from '@nozbe/watermelondb';
 import EnhancedListItem from "modules/networth/components/ListItem";
 
+const perPage = 10;
+
 const List = ({ networths }) => {
     return (
         <View style={{ marginTop: 6 }}>
@@ -14,11 +16,11 @@ const List = ({ networths }) => {
     );
 };
 
-const enhance = withObservables(['database'], ({ database }) => ({
+const enhance = withObservables(['database', 'page'], ({ page, database }) => ({
     networths: database.get('networths').query(
-        Q.unsafeSqlQuery(
-            'select * from networths order by date desc'
-        )
+        Q.experimentalSkip((page - 1) * perPage),
+        Q.experimentalTake(perPage),
+        Q.experimentalSortBy('date', 'desc')
     ).observe()
 }));
 
