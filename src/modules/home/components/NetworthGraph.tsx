@@ -10,7 +10,13 @@ const NetworthGraph = () => {
     return (
         <View>
             <VictoryChart theme={VictoryTheme.material} width={350}>
-                <VictoryAxis dependentAxis />
+                <VictoryAxis dependentAxis tickLabelComponent={(
+                    <VictoryLabel
+                        verticalAnchor="middle"
+                        textAnchor="start"
+                        x={0}
+                    />
+                )}/>
                 <VictoryAxis tickLabelComponent={<VictoryLabel angle={-45} />} />
                 <VictoryLine
                     interpolation="natural"
